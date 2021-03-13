@@ -4,6 +4,12 @@ module.exports = {
     "es6": true
   },
   "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "react-app",
     "airbnb",
     "prettier"
   ],
@@ -20,9 +26,15 @@ module.exports = {
   },
   "plugins": [
     "react",
+    "flowtype",
+    "import",
+    "jsx-a11y",
+    "react-hooks",
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 };
