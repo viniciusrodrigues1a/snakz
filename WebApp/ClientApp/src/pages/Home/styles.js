@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import heroImg from "../../assets/images/hero.png";
 
-export const Container = styled.div`
+export const HeroContainer = styled.div`
   background-image: url(${heroImg});
   background-position: 60%;
   width: 100%;
@@ -24,7 +24,7 @@ export const BackgroundOverlay = styled.div`
   background: linear-gradient(90deg, #000000, rgba(22, 22, 22, 0.6));
 `;
 
-export const Content = styled.div`
+export const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,7 +32,7 @@ export const Content = styled.div`
   padding: 0 2.75rem;
 `;
 
-export const Introduction = styled.h1`
+export const HeroIntroduction = styled.h1`
   font-size: 3rem;
   font-weight: normal;
   line-height: 4.5rem;
@@ -77,7 +77,7 @@ export const Introduction = styled.h1`
   }
 `;
 
-export const Description = styled.p`
+export const HeroDescription = styled.p`
   font-size: 1.65rem;
   margin-top: 4.5rem;
   color: var(--light);

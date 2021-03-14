@@ -1,30 +1,32 @@
 import React from "react";
 
 import {
-  Container,
+  HeroContainer,
   BackgroundOverlay,
-  Content,
-  Introduction,
-  Description,
+  HeroContent,
+  HeroIntroduction,
+  HeroDescription,
 } from "./styles";
 
 function Home() {
   return (
-    <Container>
-      <BackgroundOverlay>
-        <Content>
-          <Introduction>
-            Hambúrguer para{" "}
-            <div>
-              <strong>todo mundo!</strong>
-            </div>
-          </Introduction>
-          <Description>
-            Venha lanchar na melhor lanchonete da cidade!
-          </Description>
-        </Content>
-      </BackgroundOverlay>
-    </Container>
+    <>
+      <HeroContainer>
+        <BackgroundOverlay>
+          <HeroContent>
+            <HeroIntroduction>
+              Hambúrguer para{" "}
+              <div>
+                <strong>todo mundo!</strong>
+              </div>
+            </HeroIntroduction>
+            <HeroDescription>
+              Venha lanchar na melhor lanchonete da cidade!
+            </HeroDescription>
+          </HeroContent>
+        </BackgroundOverlay>
+      </HeroContainer>
+    </>
   );
 }
 
