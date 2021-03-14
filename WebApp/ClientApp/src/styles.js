@@ -4,7 +4,6 @@ const GlobalStyles = createGlobalStyle`
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  letter-spacing: 0.05rem;
   font-family: 'Montserrat', sans-serif;
 
   :root {
@@ -45,7 +44,6 @@ const GlobalStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
-    letter-spacing: 0.05rem;
     font-family: 'Montserrat', sans-serif;
     color: inherit;
   }
