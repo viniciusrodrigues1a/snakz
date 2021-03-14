@@ -16,6 +16,7 @@ export const NavContainer = styled.nav`
   width: 100%;
   padding: 2.5rem 0;
   position: absolute;
+  z-index: 2;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
@@ -50,7 +51,8 @@ export const NavItem = styled.li`
   text-transform: uppercase;
   font-weight: 500;
   font-size: 1.4rem;
-  transition: 0.2s;
+  transition: 0.1s;
+  letter-spacing: 0.05rem;
 
   & + & {
     margin-top: 1.5rem;
@@ -77,7 +79,8 @@ export const NavItem = styled.li`
 export const NavItemBag = styled.li`
   margin-top: 1.5rem;
   font-size: 1.6rem;
-  transition: 0.2s;
+  transition: 0.1s;
+  letter-spacing: 0.05rem;
 
   a {
     color: var(--light);
