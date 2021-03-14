@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import heroImg from "../../assets/images/hero.png";
 
+/* Hero section */
 export const HeroContainer = styled.div`
   background-image: url(${heroImg});
   background-position: 60%;
@@ -90,4 +91,158 @@ export const HeroDescription = styled.p`
   @media (min-width: 1280px) {
     font-size: 2.35rem;
   }
+`;
+
+/* Menu section */
+export const MenuContainer = styled.div`
+  margin-top: 6.375rem;
+  padding: 0 2.75rem;
+`;
+
+export const MenuCardGrid = styled.div`
+  margin-top: 3.375rem;
+  display: grid;
+  grid-gap: 4rem;
+
+  @media (min-width: 576px) {
+    width: 90%;
+    margin: 3.375rem auto 0;
+  }
+
+  @media (min-width: 664px) {
+    width: 75%;
+    margin: 3.375rem auto 0;
+  }
+  @media (min-width: 776px) {
+    width: 70%;
+    margin: 3.375rem auto 0;
+  }
+
+  @media (min-width: 996px) {
+    width: 100%;
+    margin: 3.375rem 0 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+export const MenuCard = styled.div`
+  background-color: #ffffff;
+  border-radius: 3.125rem;
+  border: 1px solid #c4c4c4;
+  box-shadow: 4px 4px 4px rgba(51, 51, 51, 0.25);
+  padding: 2.75rem;
+  display: inline-block;
+
+  > img {
+    display: block;
+    margin: 0 auto;
+    width: 12.25rem;
+    height: 12.25rem;
+    box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.25);
+    border: 2px solid #ddd;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  > strong,
+  > span {
+    display: block;
+    text-align: center;
+    margin-top: 1.25rem;
+  }
+
+  > strong {
+    color: var(--dark);
+    font-size: 2.25rem;
+    font-weight: 500;
+  }
+
+  > span {
+    color: #666666;
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 1280px) {
+    padding: 1.75rem;
+  }
+`;
+
+export const MenuCardOptionList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 3.125rem;
+
+  @media (min-width: 496px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+export const MenuCardOption = styled.div`
+  margin-top: 1rem;
+  height: 4rem;
+
+  @media (min-width: 496px) {
+    margin-top: 0;
+    width: ${({ width }) => width || "initial"};
+  }
+`;
+
+export const MenuCardOptionBackground = styled.div`
+  border-radius: 0.85rem;
+  box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const MenuCardOptionSelectAmountButton = styled.button.attrs((_) => ({
+  type: "button",
+}))`
+  background: none;
+  border: 0;
+`;
+
+export const MenuCardAmount = styled.div`
+  color: var(--dark);
+  font-size: 1.5rem;
+  margin: 0 3.5rem;
+
+  @media (min-width: 496px) {
+    margin: 0 2rem;
+    font-size: 1.3rem;
+  }
+
+  @media (min-width: 996px) {
+    margin: 0 1.25rem;
+  }
+`;
+
+export const MenuCardPrice = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  @media (min-width: 496px) {
+    font-size: 1.3rem;
+  }
+`;
+
+export const Bag = styled.button.attrs((_) => ({
+  type: "button",
+}))`
+  width: 100%;
+  background-color: var(--orange);
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 0.85rem;
+  box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
