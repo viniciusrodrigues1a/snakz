@@ -233,3 +233,6 @@ _Pvt_Extensions
 
 # IntelliJ IDE
 .idea
+
+# Database
+**/*.db
