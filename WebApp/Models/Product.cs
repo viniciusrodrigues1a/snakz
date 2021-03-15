@@ -16,6 +16,8 @@ namespace WebApp.Models
         [MaxLength(512, ErrorMessage = "Este campo deve conter no máximo 512 caracteres")]
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [Required(ErrorMessage = "Este campo é obrigatório")]
         [Range(1, int.MaxValue, ErrorMessage = "O preço deve ser maior que 0")]
         public int Price { get; set; }

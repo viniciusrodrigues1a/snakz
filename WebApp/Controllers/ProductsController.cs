@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
+using WebApp.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -13,6 +16,13 @@ namespace WebApp.Controllers
     [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
+        private IWebHostEnvironment _env;
+        public ProductsController(IWebHostEnvironment env)
+        {
+            _env = env;
+            
+        }
+
         [HttpGet]
         [Route("")]
         public async Task<ActionResult<List<Product>>> Get([FromServices] DataContext context)
@@ -41,25 +51,49 @@ namespace WebApp.Controllers
         [Route("")]
         public async Task<ActionResult<Product>> Post(
             [FromServices] DataContext context,
-            [FromBody] Product body)
+            [FromForm] IFormCollection data,
+            IFormFile file)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var productAlreadyExists = await context.Products.AnyAsync(p => p.Title == body.Title);
+            var title = data["title"].ToString();
+            var description = data["description"].ToString();
+            var price = data["price"].ToString();
+
+            if (title == "" ||
+                description == "" ||
+                price == "")
+            {
+                return BadRequest(new {message = "Formato inválido."});
+            }
+
+            var productAlreadyExists = await context.Products.AnyAsync(p => p.Title == title);
             if (productAlreadyExists)
             {
                 return BadRequest(new {message = "Já existe um produto com este nome."});
             }
+
+            string imageUrl = "";
+            if (file != null)
+            {
+                imageUrl = new ProductFile(file, _env.ContentRootPath).FileName;
+            }
+
+            var product = new Product { 
+                Title = title,
+                Description = description,
+                Price = Int32.Parse(price),
+                ImageUrl = imageUrl 
+            };
             
-            context.Products.Add(body);
+            context.Products.Add(product);
             await context.SaveChangesAsync();
             
             Response.StatusCode = StatusCodes.Status201Created;
-            
-            return body;
+            return product;
         }
 
         [HttpPut]

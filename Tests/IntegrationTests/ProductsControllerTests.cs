@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Tests.Utils;
 using WebApp.Models;
@@ -52,12 +53,15 @@ namespace Tests.IntegrationTests
         [Fact]
         public async Task Post_Product_ReturnsCreated()
         {
-            var response = await _testClient.PostAsync("/products", new Utils.JsonContent(new
-            {
-                Title = "Double burger",
-                Description = "dois hamburgueres, cheddar, bacon",
-                Price = 22
-            }));
+            var formData = new MultipartFormDataContent();
+            var title = new StringContent("Double burger");
+            var description = new StringContent("Test product description");
+            var price = new StringContent("22");
+            formData.Add(title, "title");
+            formData.Add(description, "description");
+            formData.Add(price, "price");
+
+            var response = await _testClient.PostAsync("/products", formData);
             var body = await response.Content.ReadFromJsonAsync<Product>();
             
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -67,10 +71,11 @@ namespace Tests.IntegrationTests
         [Fact]
         public async Task Post_ProductWithBodyWronglyFormatted_ReturnsBadRequest()
         {
-            var response = await _testClient.PostAsync("/products", new Utils.JsonContent(new
-            {
-                Description = "dois hamburgueres, cheddar, bacon"
-            }));
+            var formData = new MultipartFormDataContent();
+            var description = new StringContent("Test product description");
+            formData.Add(description, "description");
+
+            var response = await _testClient.PostAsync("/products", formData);
             
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -78,12 +83,15 @@ namespace Tests.IntegrationTests
         [Fact]
         public async Task Post_ProductThatAlreadyExists_ReturnsBadRequest()
         {
-            var response = await _testClient.PostAsync("/products", new Utils.JsonContent(new
-            {
-                Title = "Burger",
-                Description = "hamburger, cheddar, bacon",
-                Price = 18
-            }));
+            var formData = new MultipartFormDataContent();
+            var title = new StringContent("Burger");
+            var description = new StringContent("Burger description");
+            var price = new StringContent("19");
+            formData.Add(title, "title");
+            formData.Add(description, "description");
+            formData.Add(price, "price");
+
+            var response = await _testClient.PostAsync("/products", formData);
             
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }

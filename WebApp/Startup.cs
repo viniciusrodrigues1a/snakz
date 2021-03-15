@@ -1,12 +1,14 @@
+using System;
+using System.IO;
 using WebApp.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
 
 namespace WebApp
 {
@@ -51,6 +53,18 @@ namespace WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var uploadsDirPath = Path.Combine(env.ContentRootPath, "Uploads");
+            if (!Directory.Exists(uploadsDirPath))
+            {
+                Directory.CreateDirectory(uploadsDirPath);
+            }
+
+            app.UseStaticFiles(new StaticFileOptions{
+                FileProvider = new PhysicalFileProvider(uploadsDirPath),
+                RequestPath = "/uploads"
+            });
+
             app.UseSpaStaticFiles();
 
             app.UseRouting();
