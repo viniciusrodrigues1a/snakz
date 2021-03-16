@@ -79,7 +79,11 @@ namespace WebApp.Controllers
             string imageUrl = "";
             if (file != null)
             {
-                imageUrl = new ProductFile(file, _env.ContentRootPath).FileName;
+                var baseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+                var staticUploadsUrl = $"{baseUrl}/Uploads/";
+                var fileName = new ProductFile(file, _env.ContentRootPath).FileName;
+                imageUrl = $"{staticUploadsUrl}{fileName}";
+                Console.WriteLine(imageUrl);
             }
 
             var product = new Product { 
