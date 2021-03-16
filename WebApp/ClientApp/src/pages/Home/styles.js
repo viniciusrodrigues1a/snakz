@@ -99,6 +99,42 @@ export const MenuContainer = styled.div`
   padding: 0 2.75rem;
 `;
 
+export const MenuEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > strong {
+    color: #555;
+    display: flex;
+    align-items: center;
+
+    > svg {
+      margin-left: 0.5rem;
+    }
+  }
+`;
+
+export const MenuEmptyIcon = styled.div`
+  display: inline-block;
+  margin: 3.375rem auto;
+  position: relative;
+  z-index: 1;
+
+  &:after {
+    content: "";
+    width: 140%;
+    height: 0.4rem;
+    background-color: #a0a0a0;
+    position: absolute;
+    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%) rotate(45deg);
+  }
+`;
+
 export const MenuCardGrid = styled.div`
   margin-top: 3.375rem;
   display: grid;
