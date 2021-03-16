@@ -8,7 +8,6 @@ import {
 } from "react-icons/io5";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
-import ScrollIntoView from "../../components/ScrollIntoView";
 import LoadingSpin from "../../components/LoadingSpin";
 
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
@@ -71,65 +70,63 @@ function Home() {
         </BackgroundOverlay>
       </HeroContainer>
 
-      <ScrollIntoView scrollToId="menu">
-        <MenuContainer id="menu">
-          <UnderlinedTitle>Cardápio</UnderlinedTitle>
+      <MenuContainer id="menu">
+        <UnderlinedTitle>Cardápio</UnderlinedTitle>
 
-          { !loaded ? <LoadingSpin /> : (loaded && products.length == 0) ? (
-            <MenuEmpty>
-              <MenuEmptyIcon>
-                <IoFastFoodOutline color="#bbb" size={116} /> 
-              </MenuEmptyIcon>
+        { !loaded ? <LoadingSpin /> : (loaded && products.length == 0) ? (
+          <MenuEmpty>
+            <MenuEmptyIcon>
+              <IoFastFoodOutline color="#bbb" size={116} /> 
+            </MenuEmptyIcon>
 
-              <strong>
-                Não há nada aqui <IoSadOutline color="#555" size={28} />
-              </strong>
-            </MenuEmpty>
-          ) : (
-            <MenuCardGrid>
-              {products.map((product, index) => (
-                <MenuCard key={String(index)}>
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.title}
-                    onError={imageFallback}
-                  />
-                  <strong>{product.title}</strong>
-                  <span>{product.description}</span>
+            <strong>
+              Não há nada aqui <IoSadOutline color="#555" size={28} />
+            </strong>
+          </MenuEmpty>
+        ) : (
+          <MenuCardGrid>
+            {products.map((product, index) => (
+              <MenuCard key={String(index)}>
+                <img 
+                  src={product.imageUrl} 
+                  alt={product.title}
+                  onError={imageFallback}
+                />
+                <strong>{product.title}</strong>
+                <span>{product.description}</span>
 
-                  <MenuCardOptionList>
-                    <MenuCardOption width="38%">
-                      <MenuCardOptionBackground>
-                        <MenuCardOptionSelectAmountButton>
-                          <IoRemove color="#999" size={26} />
-                        </MenuCardOptionSelectAmountButton>
+                <MenuCardOptionList>
+                  <MenuCardOption width="38%">
+                    <MenuCardOptionBackground>
+                      <MenuCardOptionSelectAmountButton>
+                        <IoRemove color="#999" size={26} />
+                      </MenuCardOptionSelectAmountButton>
 
-                        <MenuCardAmount>1</MenuCardAmount>
+                      <MenuCardAmount>1</MenuCardAmount>
 
-                        <MenuCardOptionSelectAmountButton>
-                          <IoAdd color="#999" size={26} />
-                        </MenuCardOptionSelectAmountButton>
-                      </MenuCardOptionBackground>
-                    </MenuCardOption>
+                      <MenuCardOptionSelectAmountButton>
+                        <IoAdd color="#999" size={26} />
+                      </MenuCardOptionSelectAmountButton>
+                    </MenuCardOptionBackground>
+                  </MenuCardOption>
 
-                    <MenuCardOption width="38%">
-                      <MenuCardOptionBackground>
-                        <MenuCardPrice>R$ {product.price}</MenuCardPrice>
-                      </MenuCardOptionBackground>
-                    </MenuCardOption>
+                  <MenuCardOption width="38%">
+                    <MenuCardOptionBackground>
+                      <MenuCardPrice>R$ {product.price}</MenuCardPrice>
+                    </MenuCardOptionBackground>
+                  </MenuCardOption>
 
-                    <MenuCardOption>
-                      <Bag>
-                        <IoBagAddOutline size={32} color="#ffffff" />
-                      </Bag>
-                    </MenuCardOption>
-                  </MenuCardOptionList>
-                </MenuCard>
-              ))}
-            </MenuCardGrid>
-          ) }
-        </MenuContainer>
-      </ScrollIntoView>
+                  <MenuCardOption>
+                    <Bag>
+                      <IoBagAddOutline size={32} color="#ffffff" />
+                    </Bag>
+                  </MenuCardOption>
+                </MenuCardOptionList>
+              </MenuCard>
+            ))}
+          </MenuCardGrid>
+        ) }
+      </MenuContainer>
     </>
   );
 }

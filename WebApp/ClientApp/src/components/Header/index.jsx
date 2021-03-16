@@ -30,10 +30,10 @@ function Header() {
           {pathname === "/" ? (
             <>
               <NavItem>
-                <Link to="#menu">Cardápio</Link>
+                <a href="#menu">Cardápio</a>
               </NavItem>
               <NavItem>
-                <Link to="#footer">Contato</Link>
+                <a href="#footer">Contato</a>
               </NavItem>
             </>
           ) : (

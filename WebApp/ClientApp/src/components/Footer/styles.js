@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 export const Container = styled.footer`
   background-color: var(--dark);
@@ -8,7 +7,7 @@ export const Container = styled.footer`
   padding: 2.5rem;
 `;
 
-export const ScrollUpLink = styled(Link)`
+export const ScrollUpAnchor = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: center;
