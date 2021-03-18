@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  IoAdd,
-  IoRemove,
   IoBagAddOutline,
   IoFastFoodOutline,
   IoSadOutline,
@@ -11,6 +9,7 @@ import formatPrice from "../../utils/formatPrice";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
 import LoadingSpin from "../../components/LoadingSpin";
+import SelectAmount from "../../components/SelectAmount";
 
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
@@ -28,9 +27,6 @@ import {
   MenuCard,
   MenuCardOptionList,
   MenuCardOption,
-  MenuCardOptionBackground,
-  MenuCardOptionSelectAmountButton,
-  MenuCardAmount,
   MenuCardPrice,
   Bag,
 } from "./styles";
@@ -56,24 +52,26 @@ function Home() {
     setProducts(formattedResponse);
   }
 
-  function changeProductAmount(title, amount) {
-    const newProducts = products.map(p => {
-      const newAmount = p.amount + amount;
-      if (newAmount < 1) {
+  function changeProductAmount(title) {
+    return amount => {
+      const newProducts = products.map(p => {
+        const newAmount = p.amount + amount;
+        if (newAmount < 1) {
+          return p;
+        }
+
+        if (p.title === title) {
+          return {
+            ...p,
+            amount: newAmount,
+            formattedPrice: formatPrice(p.price * newAmount),
+          };
+        }
+
         return p;
-      }
-
-      if (p.title === title) {
-        return {
-          ...p,
-          amount: newAmount,
-          formattedPrice: formatPrice(p.price * newAmount),
-        };
-      }
-
-      return p;
-    });
-    setProducts(newProducts);
+      });
+      setProducts(newProducts);
+    };
   }
 
   function imageFallback(e) {
@@ -127,28 +125,13 @@ function Home() {
 
                 <MenuCardOptionList>
                   <MenuCardOption width="38%">
-                    <MenuCardOptionBackground>
-                      <MenuCardOptionSelectAmountButton
-                        disabled={product.amount === 1}
-                        onClick={() => changeProductAmount(product.title, -1)}
-                      >
-                        <IoRemove color="#777" size={26} />
-                      </MenuCardOptionSelectAmountButton>
-
-                      <MenuCardAmount>{product.amount}</MenuCardAmount>
-
-                      <MenuCardOptionSelectAmountButton
-                        onClick={() => changeProductAmount(product.title, +1)}
-                      >
-                        <IoAdd color="#777" size={26} />
-                      </MenuCardOptionSelectAmountButton>
-                    </MenuCardOptionBackground>
+                    <SelectAmount
+                      onChangeAmount={changeProductAmount(product.title)}
+                    />
                   </MenuCardOption>
 
                   <MenuCardOption width="38%">
-                    <MenuCardOptionBackground>
-                      <MenuCardPrice>{product.formattedPrice}</MenuCardPrice>
-                    </MenuCardOptionBackground>
+                    <MenuCardPrice>{product.formattedPrice}</MenuCardPrice>
                   </MenuCardOption>
 
                   <MenuCardOption>

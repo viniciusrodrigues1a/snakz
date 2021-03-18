@@ -232,41 +232,13 @@ export const MenuCardOption = styled.div`
   }
 `;
 
-export const MenuCardOptionBackground = styled.div`
+export const MenuCardPrice = styled.div`
   border-radius: 0.85rem;
   box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-export const MenuCardOptionSelectAmountButton = styled.button.attrs(_ => ({
-  type: "button",
-}))`
-  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  background: none;
-  border: 0;
-  margin: 1rem;
-`;
-
-export const MenuCardAmount = styled.div`
-  color: var(--dark);
-  font-size: 1.5rem;
-  margin: 0 auto;
-
-  @media (min-width: 496px) {
-    margin: 0 auto;
-    font-size: 1.3rem;
-  }
-
-  @media (min-width: 996px) {
-    margin: 0 auto;
-  }
-`;
-
-export const MenuCardPrice = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
 
