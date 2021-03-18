@@ -136,7 +136,7 @@ function Home() {
 
                   <MenuCardOption>
                     <Bag>
-                      <IoBagAddOutline size={32} color="#ffffff" />
+                      <IoBagAddOutline size={28} color="#ffffff" />
                     </Bag>
                   </MenuCardOption>
                 </MenuCardOptionList>

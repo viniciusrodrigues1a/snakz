@@ -224,7 +224,7 @@ export const MenuCardOptionList = styled.div`
 
 export const MenuCardOption = styled.div`
   margin-top: 1rem;
-  height: 4rem;
+  height: 3rem;
 
   @media (min-width: 496px) {
     margin-top: 0;
@@ -233,7 +233,7 @@ export const MenuCardOption = styled.div`
 `;
 
 export const MenuCardPrice = styled.div`
-  border-radius: 0.85rem;
+  border-radius: 0.4rem;
   box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
   height: 100%;
   display: flex;
@@ -254,9 +254,9 @@ export const Bag = styled.button.attrs(_ => ({
   background-color: var(--orange);
   padding: 0 1rem;
   border: 0;
-  border-radius: 0.85rem;
+  border-radius: 0.4rem;
   box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
-  height: 4rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
