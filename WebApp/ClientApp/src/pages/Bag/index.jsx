@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IoTrashOutline } from "react-icons/io5";
+
+import { BagContext } from "../../contexts/BagContext";
 
 import SelectAmount from "../../components/SelectAmount";
 
-import burgerImg from "../../assets/images/burger-illustration.png";
+import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
 import {
   Container,
@@ -22,6 +24,17 @@ import {
 } from "./styles";
 
 function Bag() {
+  const {
+    items,
+    removeItemFromBag,
+    changeItemAmount,
+    formattedTotal,
+  } = useContext(BagContext);
+
+  function imageFallback(e) {
+    e.target.src = burgerFallbackImg;
+  }
+
   return (
     <Container>
       <Content>
@@ -36,25 +49,32 @@ function Bag() {
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3].map(_ => (
-              <tr>
+            {items.map(item => (
+              <tr key={item.title}>
                 <TdImage>
-                  <img src={burgerImg} alt="" />
+                  <img src={item.imageUrl} alt="" onError={imageFallback} />
                 </TdImage>
                 <TdProduct>
                   <div>
-                    <span>Cheese burger</span>
-                    <strong>R$ 16.90</strong>
+                    <span>{item.title}</span>
+                    <strong>{item.formattedPrice}</strong>
                   </div>
                 </TdProduct>
                 <TdAmount>
-                  <SelectAmount backgroundColor="#FCD757" />
+                  <SelectAmount
+                    backgroundColor="#FCD757"
+                    onChangeAmount={changeItemAmount(item.title)}
+                  />
                 </TdAmount>
                 <TdPrice>
-                  <strong>R$ 33.80</strong>
+                  <strong>{item.formattedSubtotal}</strong>
                 </TdPrice>
                 <TdDelete>
-                  <IoTrashOutline size={28} color="#FCD757" />
+                  <IoTrashOutline
+                    size={28}
+                    color="#FCD757"
+                    onClick={() => removeItemFromBag(item.title)}
+                  />
                 </TdDelete>
               </tr>
             ))}
@@ -64,7 +84,7 @@ function Bag() {
         <OrderInfo>
           <CompleteOrder>Finalizar pedido</CompleteOrder>
           <OrderPrice>
-            Total <strong>R$ 54.7</strong>
+            Total <strong>{formattedTotal}</strong>
           </OrderPrice>
         </OrderInfo>
       </Content>
