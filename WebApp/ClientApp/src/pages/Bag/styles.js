@@ -11,6 +11,57 @@ export const Container = styled.main`
   }
 `;
 
+export const BagEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > strong {
+    margin: 2.375rem 0;
+    color: #555;
+    display: flex;
+    align-items: center;
+
+    > svg {
+      margin-left: 0.5rem;
+    }
+  }
+`;
+
+export const BagEmptyIcon = styled.div`
+  display: inline-block;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+
+  &:after {
+    content: "";
+    width: 140%;
+    height: 0.4rem;
+    background-color: #a0a0a0;
+    position: absolute;
+    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%) rotate(45deg);
+  }
+`;
+
+export const BagEmptyButton = styled.button.attrs(_ => ({
+  type: "button",
+}))`
+  border: 0;
+  background-color: var(--dark);
+  color: var(--light);
+  letter-spacing: 0.05rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+  padding: 1.2rem 1.3rem;
+  border-radius: 4px;
+  transition: 0.1s;
+`;
+
 export const Content = styled.div`
   background: linear-gradient(360deg, #616161, #8b8b8b);
   border-radius: 1rem;
