@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  border-radius: 0.85rem;
+  border-radius: 0.4rem;
   box-shadow: 2px 2px 4px rgba(72, 72, 72, 0.5);
+  background: ${({ backgroundColor }) => backgroundColor};
   height: 100%;
   display: flex;
   justify-content: center;
@@ -33,4 +34,3 @@ export const Amount = styled.span`
     margin: 0 auto;
   }
 `;
-

@@ -4,7 +4,7 @@ import { IoRemove, IoAdd } from "react-icons/io5";
 
 import { Container, Button, Amount } from "./styles";
 
-function SelectAmount({ onChangeAmount }) {
+function SelectAmount({ onChangeAmount, backgroundColor }) {
   const [amount, setAmount] = useState(1);
 
   function changeAmount(a) {
@@ -16,7 +16,7 @@ function SelectAmount({ onChangeAmount }) {
   }
 
   return (
-    <Container>
+    <Container backgroundColor={backgroundColor}>
       <Button disabled={amount === 1} onClick={() => changeAmount(-1)}>
         <IoRemove color="#777" size={26} />
       </Button>
@@ -32,6 +32,11 @@ function SelectAmount({ onChangeAmount }) {
 
 SelectAmount.propTypes = {
   onChangeAmount: PropTypes.func.isRequired,
+  backgroundColor: PropTypes.string,
 };
+
+SelectAmount.defaultProps = {
+  backgroundColor: "#fff"
+}
 
 export default SelectAmount;
