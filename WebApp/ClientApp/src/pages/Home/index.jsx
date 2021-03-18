@@ -7,6 +7,8 @@ import {
   IoSadOutline,
 } from "react-icons/io5";
 
+import formatPrice from "../../utils/formatPrice";
+
 import UnderlinedTitle from "../../components/UnderlinedTitle";
 import LoadingSpin from "../../components/LoadingSpin";
 
@@ -45,7 +47,32 @@ function Home() {
 
   async function fetchProducts() {
     const response = await fetch("/products").then(res => res.json());
-    setProducts(response);
+    const formattedResponse = response.map(p => ({
+      ...p,
+      amount: 1,
+      formattedPrice: formatPrice(p.price),
+    }));
+    setProducts(formattedResponse);
+  }
+
+  function changeProductAmount(title, amount) {
+    const newProducts = products.map(p => {
+      const newAmount = p.amount + amount;
+      if (newAmount < 1) {
+        return p;
+      }
+
+      if (p.title === title) {
+        return {
+          ...p,
+          amount: newAmount,
+          formattedPrice: formatPrice(p.price * newAmount),
+        };
+      }
+
+      return p;
+    });
+    setProducts(newProducts);
   }
 
   function imageFallback(e) {
@@ -100,21 +127,26 @@ function Home() {
                 <MenuCardOptionList>
                   <MenuCardOption width="38%">
                     <MenuCardOptionBackground>
-                      <MenuCardOptionSelectAmountButton>
-                        <IoRemove color="#999" size={26} />
+                      <MenuCardOptionSelectAmountButton
+                        disabled={product.amount === 1}
+                        onClick={() => changeProductAmount(product.title, -1)}
+                      >
+                        <IoRemove color="#777" size={26} />
                       </MenuCardOptionSelectAmountButton>
 
-                      <MenuCardAmount>1</MenuCardAmount>
+                      <MenuCardAmount>{product.amount}</MenuCardAmount>
 
-                      <MenuCardOptionSelectAmountButton>
-                        <IoAdd color="#999" size={26} />
+                      <MenuCardOptionSelectAmountButton
+                        onClick={() => changeProductAmount(product.title, +1)}
+                      >
+                        <IoAdd color="#777" size={26} />
                       </MenuCardOptionSelectAmountButton>
                     </MenuCardOptionBackground>
                   </MenuCardOption>
 
                   <MenuCardOption width="38%">
                     <MenuCardOptionBackground>
-                      <MenuCardPrice>R$ {product.price}</MenuCardPrice>
+                      <MenuCardPrice>{product.formattedPrice}</MenuCardPrice>
                     </MenuCardOptionBackground>
                   </MenuCardOption>
 

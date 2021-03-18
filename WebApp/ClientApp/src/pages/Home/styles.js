@@ -240,22 +240,25 @@ export const MenuCardOptionBackground = styled.div`
 export const MenuCardOptionSelectAmountButton = styled.button.attrs(_ => ({
   type: "button",
 }))`
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   background: none;
   border: 0;
+  margin: 1rem;
 `;
 
 export const MenuCardAmount = styled.div`
   color: var(--dark);
   font-size: 1.5rem;
-  margin: 0 3.5rem;
+  margin: 0 auto;
 
   @media (min-width: 496px) {
-    margin: 0 2rem;
+    margin: 0 auto;
     font-size: 1.3rem;
   }
 
   @media (min-width: 996px) {
-    margin: 0 1.25rem;
+    margin: 0 auto;
   }
 `;
 
