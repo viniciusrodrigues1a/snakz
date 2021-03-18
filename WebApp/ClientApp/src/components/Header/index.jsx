@@ -44,10 +44,10 @@ function Header() {
 
           {pathname !== "/sacola" && (
             <NavItemBag>
-              <a href="/sacola">
+              <Link to="/sacola">
                 <IoBagHandleOutline size={28} />
                 <strong>Sacola</strong>
-              </a>
+              </Link>
             </NavItemBag>
           )}
         </Nav>
