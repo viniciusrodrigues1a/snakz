@@ -15,6 +15,7 @@ import LoadingSpin from "../../components/LoadingSpin";
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
 import {
+  Container,
   HeroContainer,
   BackgroundOverlay,
   HeroContent,
@@ -80,7 +81,7 @@ function Home() {
   }
 
   return (
-    <>
+    <Container>
       <HeroContainer>
         <BackgroundOverlay>
           <HeroContent>
@@ -161,7 +162,7 @@ function Home() {
           </MenuCardGrid>
         )}
       </MenuContainer>
-    </>
+    </Container>
   );
 }
 

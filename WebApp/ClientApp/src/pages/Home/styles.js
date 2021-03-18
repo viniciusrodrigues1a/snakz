@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 import heroImg from "../../assets/images/hero.png";
 
+export const Container = styled.main`
+  padding-bottom: 18rem;
+`;
+
 /* Hero section */
 export const HeroContainer = styled.div`
   background-image: url(${heroImg});

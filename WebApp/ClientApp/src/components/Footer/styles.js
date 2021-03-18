@@ -2,7 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.footer`
   background-color: var(--dark);
-  margin-top: 8rem;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+`;
+
+export const Content = styled.div`
   position: relative;
   padding: 2.5rem;
 `;
