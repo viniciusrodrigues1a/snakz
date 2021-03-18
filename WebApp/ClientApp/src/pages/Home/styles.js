@@ -237,7 +237,7 @@ export const MenuCardOptionBackground = styled.div`
   align-items: center;
 `;
 
-export const MenuCardOptionSelectAmountButton = styled.button.attrs((_) => ({
+export const MenuCardOptionSelectAmountButton = styled.button.attrs(_ => ({
   type: "button",
 }))`
   background: none;
@@ -268,7 +268,7 @@ export const MenuCardPrice = styled.div`
   }
 `;
 
-export const Bag = styled.button.attrs((_) => ({
+export const Bag = styled.button.attrs(_ => ({
   type: "button",
 }))`
   width: 100%;

@@ -4,7 +4,7 @@ import {
   IoRemove,
   IoBagAddOutline,
   IoFastFoodOutline,
-  IoSadOutline
+  IoSadOutline,
 } from "react-icons/io5";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
@@ -73,10 +73,12 @@ function Home() {
       <MenuContainer id="menu">
         <UnderlinedTitle>Cardápio</UnderlinedTitle>
 
-        { !loaded ? <LoadingSpin /> : (loaded && products.length == 0) ? (
+        {!loaded ? (
+          <LoadingSpin />
+        ) : loaded && products.length == 0 ? (
           <MenuEmpty>
             <MenuEmptyIcon>
-              <IoFastFoodOutline color="#bbb" size={116} /> 
+              <IoFastFoodOutline color="#bbb" size={116} />
             </MenuEmptyIcon>
 
             <strong>
@@ -87,8 +89,8 @@ function Home() {
           <MenuCardGrid>
             {products.map((product, index) => (
               <MenuCard key={String(index)}>
-                <img 
-                  src={product.imageUrl} 
+                <img
+                  src={product.imageUrl}
                   alt={product.title}
                   onError={imageFallback}
                 />
@@ -125,7 +127,7 @@ function Home() {
               </MenuCard>
             ))}
           </MenuCardGrid>
-        ) }
+        )}
       </MenuContainer>
     </>
   );
