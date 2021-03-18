@@ -41,12 +41,15 @@ function Header() {
               <Link to="/">Início</Link>
             </NavItem>
           )}
-          <NavItemBag>
-            <a href="/sacola">
-              <IoBagHandleOutline size={28} />
-              <strong>Sacola</strong>
-            </a>
-          </NavItemBag>
+
+          {pathname !== "/sacola" && (
+            <NavItemBag>
+              <a href="/sacola">
+                <IoBagHandleOutline size={28} />
+                <strong>Sacola</strong>
+              </a>
+            </NavItemBag>
+          )}
         </Nav>
       </NavContainer>
 
