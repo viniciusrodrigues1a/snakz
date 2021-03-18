@@ -10,6 +10,12 @@ const GlobalStyles = createGlobalStyle`
   html {
     font-family: 'Montserrat', sans-serif;
     scroll-behavior: smooth;
+    height: 100%;
+  }
+
+  body {
+    position: relative;
+    min-height: 100%;
   }
 
   :root {
