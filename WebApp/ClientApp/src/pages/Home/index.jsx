@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   IoBagAddOutline,
   IoFastFoodOutline,
@@ -6,6 +6,7 @@ import {
 } from "react-icons/io5";
 
 import formatPrice from "../../utils/formatPrice";
+import { BagContext } from "../../contexts/BagContext";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
 import LoadingSpin from "../../components/LoadingSpin";
@@ -34,6 +35,7 @@ import {
 function Home() {
   const [loaded, setLoaded] = useState(false);
   const [products, setProducts] = useState([]);
+  const { addItemToBag } = useContext(BagContext);
 
   useEffect(() => {
     (async () => {
@@ -44,11 +46,15 @@ function Home() {
 
   async function fetchProducts() {
     const response = await fetch("/products").then(res => res.json());
-    const formattedResponse = response.map(p => ({
-      ...p,
-      amount: 1,
-      formattedPrice: formatPrice(p.price),
-    }));
+    const formattedResponse = response.map(p => {
+      const amount = 1;
+      return {
+        ...p,
+        amount,
+        formattedPrice: formatPrice(p.price),
+        formattedSubtotal: formatPrice(p.price * amount),
+      };
+    });
     setProducts(formattedResponse);
   }
 
@@ -64,7 +70,7 @@ function Home() {
           return {
             ...p,
             amount: newAmount,
-            formattedPrice: formatPrice(p.price * newAmount),
+            formattedSubtotal: formatPrice(p.price * newAmount),
           };
         }
 
@@ -131,11 +137,11 @@ function Home() {
                   </MenuCardOption>
 
                   <MenuCardOption width="38%">
-                    <MenuCardPrice>{product.formattedPrice}</MenuCardPrice>
+                    <MenuCardPrice>{product.formattedSubtotal}</MenuCardPrice>
                   </MenuCardOption>
 
                   <MenuCardOption>
-                    <Bag>
+                    <Bag onClick={() => addItemToBag(product)}>
                       <IoBagAddOutline size={28} color="#ffffff" />
                     </Bag>
                   </MenuCardOption>
