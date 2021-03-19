@@ -45,7 +45,7 @@ export const Info = styled.div`
   > strong,
   > span {
     color: var(--white);
-    font-size: 1.375rem;
+    font-size: 1.25rem;
     margin-left: 1rem;
   }
 

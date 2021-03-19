@@ -18,14 +18,14 @@ function Footer() {
         )}
 
         <Info highlight>
-          <IoLocationOutline color="#eeeeee" size={28} />
+          <IoLocationOutline color="#eeeeee" size={26} />
           <strong>
             Rua Renato Werneck, 1258, Araçatuba, São Paulo, 16050-660
           </strong>
         </Info>
 
         <Info>
-          <IoCallOutline color="#eeeeee" size={28} />
+          <IoCallOutline color="#eeeeee" size={26} />
           <span>(18) 5130-4527</span>
         </Info>
       </Content>
