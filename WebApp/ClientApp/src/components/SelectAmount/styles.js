@@ -18,6 +18,7 @@ export const Button = styled.button.attrs(_ => ({
   background: none;
   border: 0;
   margin: 1rem;
+  transition: 0.2s;
 `;
 
 export const Amount = styled.span`
