@@ -38,6 +38,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-use-before-define": "off"
   }
 };
