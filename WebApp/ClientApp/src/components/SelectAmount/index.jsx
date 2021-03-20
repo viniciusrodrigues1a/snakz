@@ -36,7 +36,7 @@ SelectAmount.propTypes = {
 };
 
 SelectAmount.defaultProps = {
-  backgroundColor: "#fff"
-}
+  backgroundColor: "#fff",
+};
 
 export default SelectAmount;
