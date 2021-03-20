@@ -6,12 +6,50 @@ export const Container = styled.main`
   padding-bottom: 18rem;
 `;
 
+export const FixedBagLinkContainer = styled.div`
+  position: absolute;
+  top: 2.75rem;
+  right: 2.75rem;
+  z-index: 1;
+  opacity: 0;
+
+  > a {
+    width: 4rem;
+    height: 3.25rem;
+    border: 0;
+    border-radius: 0.4rem;
+    padding: 0 0.8rem;
+    box-shadow: 2px 2px 4px rgba(252, 122, 87, 0.5);
+    background-color: var(--orange);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+`;
+
+export const FixedBagItemsIndicator = styled.span`
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  background-color: var(--light);
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+`;
+
 /* Hero section */
 export const HeroContainer = styled.div`
   background-image: url(${heroImg});
   background-position: 60%;
   width: 100%;
   height: 614px;
+  position: relative;
 
   @media (min-width: 996px) {
     background-position: center;
@@ -247,7 +285,7 @@ export const MenuCardPrice = styled.div`
   }
 `;
 
-export const Bag = styled.button.attrs(_ => ({
+export const MenuCardBagButton = styled.button.attrs(_ => ({
   type: "button",
 }))`
   width: 100%;
@@ -260,4 +298,10 @@ export const Bag = styled.button.attrs(_ => ({
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.2s;
+
+  &:active {
+    opacity: 0.5;
+    scale: 1.1;
+  }
 `;

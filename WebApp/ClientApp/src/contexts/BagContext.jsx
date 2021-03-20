@@ -23,6 +23,12 @@ export function BagProvider({ children }) {
   }, [items]);
 
   function addItemToBag(item) {
+    const itemAlreadyExists = items.find(i => i.title === item.title);
+
+    if (itemAlreadyExists) {
+      throw new Error("Item já está em sua sacola!");
+    }
+
     setItems([...items, item]);
   }
 
