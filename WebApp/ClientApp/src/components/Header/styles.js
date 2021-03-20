@@ -88,7 +88,8 @@ export const NavItemBag = styled.li`
     display: flex;
     align-items: center;
     border-radius: 2px;
-    padding: 0.4rem 0.8rem;
+    height: 3.25rem;
+    padding: 0 0.8rem;
     text-transform: uppercase;
   }
 
