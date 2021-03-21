@@ -7,6 +7,7 @@ export const Container = styled.main`
 `;
 
 export const FixedBagLinkContainer = styled.div`
+  display: none;
   position: absolute;
   top: 2.75rem;
   right: 2.75rem;

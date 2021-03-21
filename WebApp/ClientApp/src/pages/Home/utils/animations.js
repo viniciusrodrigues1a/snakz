@@ -47,6 +47,7 @@ export default function animate(element) {
     gsap.fromTo(
       element,
       {
+        display: "none",
         position: "absolute",
         top: "2.75rem",
         opacity: 0,
@@ -59,6 +60,7 @@ export default function animate(element) {
           markers: false,
           toggleActions: "play none none reset",
         },
+        display: "initial",
         position: "fixed",
         top: "calc(100% - 4.25rem)",
         opacity: 1,
