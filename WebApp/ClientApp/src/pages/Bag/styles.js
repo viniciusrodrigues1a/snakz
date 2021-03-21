@@ -111,7 +111,7 @@ export const Table = styled.table`
   @media (min-width: 40.25rem) {
     th:first-child,
     td:first-child {
-      padding-top: 2rem;
+      padding-top: 1rem;
       padding-bottom: 1rem;
       padding-left: 2rem;
       display: table-cell;
