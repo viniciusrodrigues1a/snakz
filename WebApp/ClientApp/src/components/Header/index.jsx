@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoBagHandleOutline, IoMenuOutline } from "react-icons/io5";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import {
   Container,
@@ -16,6 +16,13 @@ import logoImg from "../../assets/images/logo.png";
 function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { pathname } = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    history.listen(() => {
+      setIsNavOpen(false);
+    });
+  }, [history]);
 
   function toggleNavOpenState() {
     setIsNavOpen(!isNavOpen);
