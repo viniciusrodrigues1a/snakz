@@ -25,6 +25,7 @@ export const BagEmpty = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 3rem;
 
   > strong {
     margin: 2.375rem 0;
