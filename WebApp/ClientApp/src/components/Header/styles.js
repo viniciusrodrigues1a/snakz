@@ -13,7 +13,7 @@ export const NavContainer = styled.nav`
   display: ${({ isShown }) => (isShown ? "initial" : "none")};
   border-top: 1px solid var(--orange);
   background: var(--dark);
-  width: 100%;
+  width: 101%;
   padding: 2.5rem 0;
   position: absolute;
   z-index: 2;
