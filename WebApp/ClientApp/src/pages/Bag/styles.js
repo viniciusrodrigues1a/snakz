@@ -1,12 +1,21 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-  padding: 1rem;
+  padding: 1rem 0.25rem;
   padding-bottom: 16rem;
-  margin-top: 2rem;
 
   @media (min-width: 31.5rem) {
+    padding: 2rem 0.5rem;
+    padding-bottom: 16rem;
+  }
+
+  @media (min-width: 48.5rem) {
     padding: 2rem;
+    padding-bottom: 16rem;
+  }
+
+  @media (min-width: 68.5rem) {
+    padding: 2rem 4rem;
     padding-bottom: 16rem;
   }
 `;
@@ -64,132 +73,111 @@ export const BagEmptyButton = styled.button.attrs(_ => ({
 
 export const Content = styled.div`
   background: linear-gradient(360deg, #616161, #8b8b8b);
+  background: none;
   border-radius: 1rem;
+  margin: 2rem 1rem;
 `;
 
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 
-  th {
-    text-transform: uppercase;
-    color: var(--dark);
+  tr {
+    background-color: #dedede;
   }
 
-  th,
   td {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
 
-  th:first-child,
-  td:first-child {
-    display: none;
-  }
-
-  td:last-child,
-  th:last-child {
-    padding-right: 1rem;
-  }
-
-  th:nth-child(2),
-  td:nth-child(2) {
-    padding-left: 1rem;
-  }
-
   tr + tr {
-    border-top: 1px solid #22222222;
+    border-top: 1rem solid var(--light);
   }
-
-  @media (min-width: 33.75rem) {
-    th {
-      letter-spacing: 0.05rem;
-      font-size: 1.15rem;
-    }
-  }
-
-  @media (min-width: 40.25rem) {
-    th:first-child,
-    td:first-child {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      padding-left: 2rem;
-      display: table-cell;
-    }
-
-    td:last-child,
-    th:last-child {
-      padding-right: 2rem;
-    }
-
-    th:nth-child(2),
-    td:nth-child(2) {
-      padding-left: 0;
-    }
-
-    th {
-      text-transform: uppercase;
-      color: var(--dark);
-      letter-spacing: 0.05rem;
-      font-size: 1.1rem;
-      padding-top: 2rem;
-      padding-bottom: 0;
-    }
-  }
-`;
-
-export const ThAmount = styled.th`
-  text-align: center;
-`;
-
-export const ThPrice = styled.th`
-  text-align: right;
-  padding-right: 1.5rem;
 `;
 
 export const TdImage = styled.td`
+  display: none;
+  border-radius: 4px;
+
   img {
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
     border: 1px solid #22222244;
+    background-color: #eee;
+  }
+
+  @media (min-width: 40.25rem) {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    display: table-cell;
   }
 `;
 
 export const TdProduct = styled.td`
+  padding-left: 1rem;
+
   > div {
     display: flex;
     flex-direction: column;
-    color: var(--light);
+    color: var(--dark);
+  }
+
+  @media (min-width: 40.25rem) {
+    padding-left: 0;
   }
 `;
 
 export const TdAmount = styled.td`
   > div {
+    scale: 0.9;
     width: 8rem;
     height: 2.5rem;
-    margin: 0 auto;
+  }
+
+  @media (min-width: 40.25rem) {
+    > div {
+      scale: 1;
+      margin: 0 auto;
+    }
   }
 `;
 
 export const TdPrice = styled.td`
-  text-align: right;
-  padding-right: 1.5rem;
+  width: 7rem;
+  text-align: center;
+  padding-right: 1rem;
 
   > strong {
-    color: var(--light);
+    color: var(--dark);
   }
 
   @media (min-width: 33.75rem) {
     font-size: 1.2rem;
   }
+
+  @media (min-width: 40.25rem) {
+    width: 12rem;
+  }
+
+  @media (min-width: 68.5rem) {
+    width: 16rem;
+  }
 `;
 
 export const TdDelete = styled.td`
+  width: 3rem;
+  background: var(--light);
   text-align: right;
 
   > svg {
     cursor: pointer;
+  }
+
+  @media (min-width: 48.5rem) {
+    width: 4rem;
   }
 `;
 
@@ -198,16 +186,12 @@ export const OrderInfo = styled.div`
   flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  margin-top: 1.75rem;
 
   @media (min-width: 35rem) {
     flex-direction: row;
     justify-content: space-between;
     align-items: end;
-  }
-
-  @media (min-width: 40.25rem) {
-    padding: 2rem;
   }
 `;
 
@@ -223,18 +207,21 @@ export const CompleteOrder = styled.button.attrs(_ => ({
   color: var(--light);
   font-weight: bold;
   font-size: 1.15rem;
-  box-shadow: 4px 4px 6px rgba(252, 122, 87, 0.75);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const OrderPrice = styled.strong`
-  color: var(--light);
+  color: var(--dark);
   text-transform: uppercase;
   margin: 1rem 0;
+  letter-spacing: 0.05rem;
 
   > strong {
-    color: #fcd757;
+    color: #fc7a57;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     font-size: 2rem;
     margin-left: 0.25rem;
+    letter-spacing: 0;
   }
 
   @media (min-width: 35rem) {

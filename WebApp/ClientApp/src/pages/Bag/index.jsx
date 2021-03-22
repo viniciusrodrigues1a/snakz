@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import {
-  IoTrashOutline,
+  IoCloseOutline,
   IoBagHandleOutline,
   IoSadOutline,
 } from "react-icons/io5";
@@ -18,8 +18,6 @@ import {
   BagEmptyButton,
   Content,
   Table,
-  ThAmount,
-  ThPrice,
   TdImage,
   TdProduct,
   TdAmount,
@@ -61,15 +59,6 @@ function Bag() {
       ) : (
         <Content>
           <Table>
-            <thead>
-              <tr>
-                <th />
-                <th>Produto</th>
-                <ThAmount>Quantidade</ThAmount>
-                <ThPrice>Subtotal</ThPrice>
-                <th />
-              </tr>
-            </thead>
             <tbody>
               {items.map(item => (
                 <tr key={item.title}>
@@ -84,17 +73,18 @@ function Bag() {
                   </TdProduct>
                   <TdAmount>
                     <SelectAmount
-                      backgroundColor="#FCD757"
+                      backgroundColor="#ededed"
                       onChangeAmount={changeItemAmount(item.title)}
+                      amountValue={item.amount}
                     />
                   </TdAmount>
                   <TdPrice>
                     <strong>{item.formattedSubtotal}</strong>
                   </TdPrice>
                   <TdDelete>
-                    <IoTrashOutline
-                      size={28}
-                      color="#FCD757"
+                    <IoCloseOutline
+                      size={36}
+                      color="#666"
                       onClick={() => removeItemFromBag(item.title)}
                     />
                   </TdDelete>
