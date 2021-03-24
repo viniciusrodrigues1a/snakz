@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebApp.Data;
 using WebApp.Models;
+using WebApp.Utils;
 
 namespace Tests.IntegrationTests
 {
@@ -41,6 +42,7 @@ namespace Tests.IntegrationTests
         {
             RemoveEntries();
             SeedProducts();
+            SeedUsers();
             SaveChanges();
         }
 
@@ -55,6 +57,13 @@ namespace Tests.IntegrationTests
             _context.Products.Add(new Product() { Id = 2, Title = "Test product 01", Description = "Test description", Price = 16 });
             _context.Products.Add(new Product() { Id = 3, Title = "Test product 02", Description = "Test description", Price = 22 });
             _context.Products.Add(new Product() { Id = 4, Title = "Test product 03", Description = "Test description", Price = 19 });
+        }
+
+        private void SeedUsers()
+        {
+            var salt = PasswordEncryption.GenerateSalt();
+            var hash = PasswordEncryption.GenerateHash("test", salt);
+            _context.Users.Add(new User() { Id = 2, Username = "test", Password = hash, Salt = salt });
         }
         
         private void SaveChanges()
