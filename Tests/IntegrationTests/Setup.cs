@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebApp.Data;
 using WebApp.Models;
 using WebApp.Utils;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Tests.Utils;
 
 namespace Tests.IntegrationTests
 {
@@ -30,6 +32,7 @@ namespace Tests.IntegrationTests
                 .UseStartup<Startup>()
                 .ConfigureServices(services =>
                 {
+                    services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
                     services.RemoveAll(typeof(DataContext));
                     services.AddDbContext<DataContext>(options => { options.UseInMemoryDatabase(_guid ); });
                 });

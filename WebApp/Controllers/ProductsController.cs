@@ -9,6 +9,7 @@ using WebApp.Models;
 using WebApp.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
@@ -32,6 +33,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult<Product>> GetById(
             [FromServices] DataContext context,
@@ -48,6 +50,7 @@ namespace WebApp.Controllers
         }
         
         [HttpPost]
+        [Authorize]
         [Route("")]
         public async Task<ActionResult<Product>> Post(
             [FromServices] DataContext context,
@@ -101,6 +104,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult<Product>> Put(
             [FromServices] DataContext context,
@@ -128,6 +132,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPatch]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult> Patch(
             [FromServices] DataContext context,
@@ -165,6 +170,7 @@ namespace WebApp.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult> Delete(
             [FromServices] DataContext context,
