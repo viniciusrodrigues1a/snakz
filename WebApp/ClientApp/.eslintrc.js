@@ -39,6 +39,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-nested-ternary": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 };
