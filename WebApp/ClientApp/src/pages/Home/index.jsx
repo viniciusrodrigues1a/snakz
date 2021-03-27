@@ -201,7 +201,7 @@ function Home() {
 
         {!loaded ? (
           <LoadingSpin />
-        ) : loaded && products.length == 0 ? (
+        ) : loaded && products.length === 0 ? (
           <MenuEmpty>
             <MenuEmptyIcon>
               <IoFastFoodOutline color="#bbb" size={116} />
