@@ -6,19 +6,18 @@ import formatPrice from "../utils/formatPrice";
 export const BagContext = createContext([]);
 
 export function BagProvider({ children }) {
-  const [formattedTotal, setFormattedTotal] = useState(0);
+  const [formattedTotal, setFormattedTotal] = useState("");
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     if (items.length > 1) {
       const total = items.reduce(
-        (acc, curr) => acc.price * acc.amount + curr.price * curr.amount
+        (acc, curr) => acc + curr.price * curr.amount,
+        0
       );
       setFormattedTotal(formatPrice(total));
     } else if (items.length === 1) {
       setFormattedTotal(items[0].formattedSubtotal);
-    } else {
-      setFormattedTotal(formatPrice(0));
     }
   }, [items]);
 
