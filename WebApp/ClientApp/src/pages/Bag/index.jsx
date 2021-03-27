@@ -71,13 +71,7 @@ function Bag() {
           </ProductsTable.Table>
 
           <OrderInfo>
-            <CompleteOrder
-              onClick={() => {
-                console.log(items);
-              }}
-            >
-              Finalizar pedido
-            </CompleteOrder>
+            <CompleteOrder>Finalizar pedido</CompleteOrder>
             <OrderPrice>
               Total <strong>{formattedTotal}</strong>
             </OrderPrice>
