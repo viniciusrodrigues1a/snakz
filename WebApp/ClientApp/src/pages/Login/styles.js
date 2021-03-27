@@ -29,6 +29,7 @@ export const Input = styled.input`
   padding: 0.75rem 1.5rem;
   border: 1px solid #ddd;
   transition: 0.2s;
+  width: 100%;
 
   &:focus {
     outline: 0;
@@ -107,7 +108,22 @@ export const SubmitButton = styled.button`
     margin-left: 1rem;
   }
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #469146;
   }
+
+  &:disabled {
+    background-color: #4ea24eaa;
+    cursor: not-allowed;
+  }
+`;
+
+export const ErrorMessage = styled.span`
+  font-weight: 500;
+  letter-spacing: 0.02rem;
+  color: ${({ color }) => color};
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: end;
 `;
