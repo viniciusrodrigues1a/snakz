@@ -54,6 +54,13 @@ const ProductsTable = {
       </TdProduct>
     );
   },
+  Description({ description }) {
+    return (
+      <td>
+        <span>{description}</span>
+      </td>
+    );
+  },
   Amount({ onChangeAmount, amountValue }) {
     return (
       <TdAmount>
@@ -101,6 +108,10 @@ ProductsTable.Image.propTypes = {
 ProductsTable.Info.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
+};
+
+ProductsTable.Description.propTypes = {
+  description: PropTypes.string.isRequired,
 };
 
 ProductsTable.Amount.propTypes = {
