@@ -10,6 +10,7 @@ import {
 
 import animate from "./utils/animations";
 import formatPrice from "../../utils/formatPrice";
+import fetchProducts from "../../utils/fetchProducts";
 import { BagContext } from "../../contexts/BagContext";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
@@ -58,25 +59,12 @@ function Home() {
 
   useEffect(() => {
     (async () => {
-      await fetchProducts();
+      const response = await fetchProducts();
+      setProducts(response);
       animate(fixedBagRef.current).bringFixedBagToScreen();
       setLoaded(true);
     })();
   }, []);
-
-  async function fetchProducts() {
-    const response = await fetch("/products").then(res => res.json());
-    const formattedResponse = response.map(p => {
-      const amount = 1;
-      return {
-        ...p,
-        amount,
-        formattedPrice: formatPrice(p.price),
-        formattedSubtotal: formatPrice(p.price * amount),
-      };
-    });
-    setProducts(formattedResponse);
-  }
 
   function handleAddingItemToBag(product) {
     resetTimeouts();
