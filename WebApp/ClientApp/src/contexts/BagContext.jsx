@@ -74,5 +74,8 @@ export function BagProvider({ children }) {
 }
 
 BagProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
