@@ -1,28 +1,14 @@
 import React, { useContext } from "react";
-import {
-  IoCloseOutline,
-  IoBagHandleOutline,
-  IoSadOutline,
-} from "react-icons/io5";
+import { IoBagHandleOutline, IoSadOutline } from "react-icons/io5";
 
 import { BagContext } from "../../contexts/BagContext";
 
-import SelectAmount from "../../components/SelectAmount";
-
-import burgerFallbackImg from "../../assets/images/burger-illustration.png";
+import ProductsTable from "../../components/ProductsTable";
 
 import {
-  Container,
   BagEmpty,
   BagEmptyIcon,
   BagEmptyButton,
-  Content,
-  Table,
-  TdImage,
-  TdProduct,
-  TdAmount,
-  TdPrice,
-  TdDelete,
   OrderInfo,
   CompleteOrder,
   OrderPrice,
@@ -36,12 +22,8 @@ function Bag() {
     formattedTotal,
   } = useContext(BagContext);
 
-  function imageFallback(e) {
-    e.target.src = burgerFallbackImg;
-  }
-
   return (
-    <Container>
+    <ProductsTable.Container>
       {items.length < 1 ? (
         <BagEmpty>
           <BagEmptyIcon>
@@ -57,51 +39,42 @@ function Bag() {
           </a>
         </BagEmpty>
       ) : (
-        <Content>
-          <Table>
-            <tbody>
-              {items.map(item => (
-                <tr key={item.title}>
-                  <TdImage>
-                    <img src={item.imageUrl} alt="" onError={imageFallback} />
-                  </TdImage>
-                  <TdProduct>
-                    <div>
-                      <span>{item.title}</span>
-                      <strong>{item.formattedPrice}</strong>
-                    </div>
-                  </TdProduct>
-                  <TdAmount>
-                    <SelectAmount
-                      backgroundColor="#ededed"
-                      onChangeAmount={changeItemAmount(item.title)}
-                      amountValue={item.amount}
-                    />
-                  </TdAmount>
-                  <TdPrice>
-                    <strong>{item.formattedSubtotal}</strong>
-                  </TdPrice>
-                  <TdDelete>
-                    <IoCloseOutline
-                      size={36}
-                      color="#666"
-                      onClick={() => removeItemFromBag(item.title)}
-                    />
-                  </TdDelete>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+        <ProductsTable.Content>
+          <ProductsTable.Table>
+            {items.map(item => (
+              <ProductsTable.Row key={item.title}>
+                <ProductsTable.Image src={item.imageUrl} alt={item.title} />
+                <ProductsTable.Info
+                  title={item.title}
+                  price={item.formattedPrice}
+                />
+                <ProductsTable.Amount
+                  onChangeAmount={changeItemAmount(item.title)}
+                  amountValue={item.amount}
+                />
+                <ProductsTable.Subtotal subtotal={item.formattedSubtotal} />
+                <ProductsTable.Delete
+                  onClick={() => removeItemFromBag(item.title)}
+                />
+              </ProductsTable.Row>
+            ))}
+          </ProductsTable.Table>
 
           <OrderInfo>
-            <CompleteOrder>Finalizar pedido</CompleteOrder>
+            <CompleteOrder
+              onClick={() => {
+                console.log(items);
+              }}
+            >
+              Finalizar pedido
+            </CompleteOrder>
             <OrderPrice>
               Total <strong>{formattedTotal}</strong>
             </OrderPrice>
           </OrderInfo>
-        </Content>
+        </ProductsTable.Content>
       )}
-    </Container>
+    </ProductsTable.Container>
   );
 }
 
