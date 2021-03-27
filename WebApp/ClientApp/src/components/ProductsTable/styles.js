@@ -113,7 +113,7 @@ export const TdPrice = styled.td`
   }
 `;
 
-export const TdDelete = styled.td`
+export const TdAction = styled.td`
   width: 3rem;
   background: var(--light);
   text-align: right;

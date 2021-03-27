@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IoCloseOutline } from "react-icons/io5";
 
 import SelectAmount from "../SelectAmount";
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
@@ -13,7 +12,7 @@ import {
   TdProduct,
   TdAmount,
   TdPrice,
-  TdDelete,
+  TdAction,
 } from "./styles";
 
 function imageFallback(e) {
@@ -79,11 +78,11 @@ const ProductsTable = {
       </TdPrice>
     );
   },
-  Delete({ onClick }) {
+  Action({ icon: Icon }) {
     return (
-      <TdDelete>
-        <IoCloseOutline size={36} color="#666" onClick={onClick} />
-      </TdDelete>
+      <TdAction>
+        <Icon />
+      </TdAction>
     );
   },
 };
@@ -123,8 +122,8 @@ ProductsTable.Subtotal.propTypes = {
   subtotal: PropTypes.string.isRequired,
 };
 
-ProductsTable.Delete.propTypes = {
-  onClick: PropTypes.func.isRequired,
+ProductsTable.Action.propTypes = {
+  icon: PropTypes.func.isRequired,
 };
 
 export default ProductsTable;

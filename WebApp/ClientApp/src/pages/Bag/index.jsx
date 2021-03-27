@@ -1,5 +1,9 @@
 import React, { useContext } from "react";
-import { IoBagHandleOutline, IoSadOutline } from "react-icons/io5";
+import {
+  IoCloseOutline,
+  IoBagHandleOutline,
+  IoSadOutline,
+} from "react-icons/io5";
 
 import { BagContext } from "../../contexts/BagContext";
 
@@ -53,8 +57,14 @@ function Bag() {
                   amountValue={item.amount}
                 />
                 <ProductsTable.Subtotal subtotal={item.formattedSubtotal} />
-                <ProductsTable.Delete
-                  onClick={() => removeItemFromBag(item.title)}
+                <ProductsTable.Action
+                  icon={() => (
+                    <IoCloseOutline
+                      size={36}
+                      color="#666"
+                      onClick={() => removeItemFromBag(item.title)}
+                    />
+                  )}
                 />
               </ProductsTable.Row>
             ))}
