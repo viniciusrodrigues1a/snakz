@@ -81,33 +81,17 @@ const ProductsTable = {
   },
 };
 
-ProductsTable.Container.propTypes = {
+const childrenPropTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
 };
 
-ProductsTable.Content.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-};
-
-ProductsTable.Table.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-};
-
-ProductsTable.Row.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-};
+Object.assign(ProductsTable.Container, childrenPropTypes);
+Object.assign(ProductsTable.Content, childrenPropTypes);
+Object.assign(ProductsTable.Table, childrenPropTypes);
+Object.assign(ProductsTable.Row, childrenPropTypes);
 
 ProductsTable.Image.propTypes = {
   src: PropTypes.string.isRequired,
