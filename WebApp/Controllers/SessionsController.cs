@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -28,13 +29,13 @@ namespace WebApp.Controllers
 
             if (user == null)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Usuário inválido." });
             }
 
             if (!PasswordEncryption.IsStringEqualToHash(password, user.Password, user.Salt))
 
             {
-                return BadRequest();
+                return BadRequest(new { message = "Senha inválida." });
             }
 
             var claims = new List<Claim>
@@ -48,5 +49,10 @@ namespace WebApp.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("")]
+        [Authorize]
+        public OkResult Get() => Ok();
     }
 }
