@@ -58,7 +58,7 @@ function Login() {
       return;
     }
 
-      handleSuccess();
+    handleSuccess();
   }
 
   function showError(message) {
