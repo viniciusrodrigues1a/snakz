@@ -58,7 +58,12 @@ function Login() {
       return;
     }
 
-    handleSuccess();
+    if (response.status === 200) {
+      handleSuccess();
+      return;
+    }
+
+    errorFallback();
   }
 
   function showError(message) {
@@ -83,6 +88,10 @@ function Login() {
       3000
     );
     setTimeout(() => setIsLoggedIn(true), 3500);
+  }
+
+  function errorFallback() {
+    throw new Error("Method not implemented yet.");
   }
 
   return (
