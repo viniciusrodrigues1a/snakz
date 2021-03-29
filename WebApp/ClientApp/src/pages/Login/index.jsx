@@ -55,6 +55,7 @@ function Login() {
     if (response.status === 400) {
       const json = await response.json();
       showError(json.message);
+      return;
     }
 
     handleSuccess();
