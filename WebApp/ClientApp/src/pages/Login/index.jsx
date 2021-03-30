@@ -47,7 +47,7 @@ function Login() {
     formData.append("username", user);
     formData.append("password", pass);
 
-    const response = await fetch("/sssions", {
+    const response = await fetch("/sessions", {
       body: formData,
       method: "post",
     });
