@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { IoPerson, IoLockClosed, IoArrowForwardOutline } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
 
+import LoadingSpin from "../../components/LoadingSpin";
+
 import { UserContext } from "../../contexts/UserContext";
 
 import {
@@ -26,7 +28,9 @@ function Login() {
   const [feedback, setFeedback] = useState({});
   const feedbackRef = useRef(null);
   const history = useHistory();
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const { isLoggedIn, setIsLoggedIn, hasContextMounted } = useContext(
+    UserContext
+  );
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -88,6 +92,16 @@ function Login() {
       3000
     );
     setTimeout(() => setIsLoggedIn(true), 3500);
+  }
+
+  if (!hasContextMounted) {
+    return (
+      <div style={{ paddingTop: "2rem" }}>
+        <div style={{ marginTop: "2rem" }}>
+          <LoadingSpin />
+        </div>
+      </div>
+    );
   }
 
   return (
