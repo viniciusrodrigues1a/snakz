@@ -1,22 +1,12 @@
 import React, { useContext } from "react";
-import {
-  IoCloseOutline,
-  IoBagHandleOutline,
-  IoSadOutline,
-} from "react-icons/io5";
+import { IoCloseOutline, IoBagHandleOutline } from "react-icons/io5";
 
 import { BagContext } from "../../contexts/BagContext";
 
 import ProductsTable from "../../components/ProductsTable";
+import EmptyList from "../../components/EmptyList";
 
-import {
-  BagEmpty,
-  BagEmptyIcon,
-  BagEmptyButton,
-  OrderInfo,
-  CompleteOrder,
-  OrderPrice,
-} from "./styles";
+import { BagEmptyButton, OrderInfo, CompleteOrder, OrderPrice } from "./styles";
 
 function Bag() {
   const {
@@ -29,19 +19,14 @@ function Bag() {
   return (
     <ProductsTable.Container>
       {items.length < 1 ? (
-        <BagEmpty>
-          <BagEmptyIcon>
-            <IoBagHandleOutline color="#bbb" size={116} />
-          </BagEmptyIcon>
-
-          <strong>
-            Não há nada em sua sacola <IoSadOutline color="#555" size={28} />
-          </strong>
-
+        <EmptyList
+          icon={() => <IoBagHandleOutline color="#bbb" size={116} />}
+          message="Não há nada em sua sacola"
+        >
           <a href="/#menu">
             <BagEmptyButton>Veja nosso cardápio!</BagEmptyButton>
           </a>
-        </BagEmpty>
+        </EmptyList>
       ) : (
         <ProductsTable.Content>
           <ProductsTable.Table>

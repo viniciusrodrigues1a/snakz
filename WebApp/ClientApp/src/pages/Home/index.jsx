@@ -4,7 +4,6 @@ import {
   IoBagAddOutline,
   IoBagHandleOutline,
   IoFastFoodOutline,
-  IoSadOutline,
   IoArrowForwardOutline,
 } from "react-icons/io5";
 
@@ -16,6 +15,7 @@ import { BagContext } from "../../contexts/BagContext";
 import UnderlinedTitle from "../../components/UnderlinedTitle";
 import LoadingSpin from "../../components/LoadingSpin";
 import SelectAmount from "../../components/SelectAmount";
+import EmptyList from "../../components/EmptyList";
 import BottomNotification from "./BottomNotification";
 
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
@@ -30,8 +30,6 @@ import {
   HeroIntroduction,
   HeroDescription,
   MenuContainer,
-  MenuEmpty,
-  MenuEmptyIcon,
   MenuCardGrid,
   MenuCard,
   MenuCardOptionList,
@@ -202,15 +200,10 @@ function Home() {
         {!loaded ? (
           <LoadingSpin />
         ) : loaded && products.length === 0 ? (
-          <MenuEmpty>
-            <MenuEmptyIcon>
-              <IoFastFoodOutline color="#bbb" size={116} />
-            </MenuEmptyIcon>
-
-            <strong>
-              Não há nada aqui <IoSadOutline color="#555" size={28} />
-            </strong>
-          </MenuEmpty>
+          <EmptyList
+            icon={() => <IoFastFoodOutline color="#bbb" size={116} />}
+            message="Não há nada aqui"
+          />
         ) : (
           <MenuCardGrid>
             {products.map((product, index) => (
