@@ -26,7 +26,7 @@ function ProductsManagement() {
   }, []);
 
   async function deleteProduct(id) {
-    const response = await fetch(`/proucts/${id}`, {
+    const response = await fetch(`/products/${id}`, {
       method: "delete",
     });
 
