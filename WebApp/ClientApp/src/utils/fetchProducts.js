@@ -1,6 +1,6 @@
 import formatPrice from "./formatPrice";
 
-async function fetchProducts() {
+export async function fetchProducts() {
   const response = await fetch("/products").then(res => res.json());
   const formattedResponse = response.map(p => {
     const amount = 1;
@@ -14,4 +14,11 @@ async function fetchProducts() {
   return formattedResponse;
 }
 
-export default fetchProducts;
+export async function fetchProduct(id) {
+  const response = await fetch(`/products/${id}`).then(res => res.json());
+  const formattedResponse = {
+    ...response,
+    formattedPrice: formatPrice(response.price),
+  };
+  return formattedResponse;
+}

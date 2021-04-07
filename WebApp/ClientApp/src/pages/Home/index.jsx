@@ -9,7 +9,7 @@ import {
 
 import animate from "./utils/animations";
 import formatPrice from "../../utils/formatPrice";
-import fetchProducts from "../../utils/fetchProducts";
+import { fetchProducts } from "../../utils/fetchProducts";
 import { BagContext } from "../../contexts/BagContext";
 
 import UnderlinedTitle from "../../components/UnderlinedTitle";
