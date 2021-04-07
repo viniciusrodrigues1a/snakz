@@ -123,6 +123,11 @@ namespace WebApp.Controllers
                 return BadRequest(new {message = "Formato inválido."});
             }
 
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null) {
+                return BadRequest(new {message = "Produto não existe."});
+            }
+
             var productWithNewTitleAlreadyExists = await context.Products.AnyAsync(p => p.Title == title && p.Id != id);
             if (productWithNewTitleAlreadyExists)
             {
