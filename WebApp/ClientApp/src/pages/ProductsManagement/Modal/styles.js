@@ -18,17 +18,11 @@ export const Content = styled.div`
   padding: 2rem;
   border-radius: 0.15rem;
 
-  > div {
+  div:last-child {
     margin-top: 2rem;
     display: flex;
     justify-content: flex-end;
   }
-`;
-
-export const Title = styled.strong`
-  letter-spacing: 0.05rem;
-  font-size: 1.15rem;
-  color: var(--dark);
 `;
 
 export const Button = styled.button.attrs(_ => ({
@@ -36,9 +30,8 @@ export const Button = styled.button.attrs(_ => ({
 }))`
   border: 0;
   border-radius: 0.15rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.75rem;
   letter-spacing: 0.02rem;
-  font-weight: 500;
   color: var(--dark);
   border: 1px solid ${({ color }) => color};
   transition: 0.2s;

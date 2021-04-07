@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
-import { Container, Content, Title, Button } from "./styles";
+import { Container, Content, Button } from "./styles";
 
-function DeletionConfirmationModel({ onCancel, onConfirm, isOpen }) {
+function UpdateModal({ onCancel, onConfirm, isOpen, children }) {
   const containerRef = useRef(null);
 
   function handleClickOutsideOfModal(e) {
@@ -16,7 +16,7 @@ function DeletionConfirmationModel({ onCancel, onConfirm, isOpen }) {
     return (
       <Container onClick={handleClickOutsideOfModal} ref={containerRef}>
         <Content>
-          <Title>Certeza que deseja excluir este item?</Title>
+          <div>{children}</div>
 
           <div>
             <Button variant="outline" color="#a24e4e" onClick={onCancel}>
@@ -34,10 +34,14 @@ function DeletionConfirmationModel({ onCancel, onConfirm, isOpen }) {
   return null;
 }
 
-DeletionConfirmationModel.propTypes = {
+UpdateModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
-export default DeletionConfirmationModel;
+export default UpdateModal;
