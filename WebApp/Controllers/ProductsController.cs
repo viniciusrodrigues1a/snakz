@@ -144,14 +144,15 @@ namespace WebApp.Controllers
                 Console.WriteLine(imageUrl);
             }
             
-            var product = new Product
+            product.Title = title;
+            product.Description = description;
+            product.Price = Int32.Parse(price);
+
+            if (!string.IsNullOrEmpty(imageUrl))
             {
-                Id = id, 
-                Title = title, 
-                Description = description, 
-                Price = Int32.Parse(price),
-                ImageUrl = imageUrl
-            };
+                product.ImageUrl = imageUrl;
+            }
+
             context.Products.Attach(product);
             context.Entry(product).State = EntityState.Modified;
             await context.SaveChangesAsync();
