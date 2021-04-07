@@ -108,21 +108,44 @@ namespace WebApp.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult<Product>> Put(
             [FromServices] DataContext context,
-            [FromBody] Product body,
+            [FromForm] IFormCollection data,
+            IFormFile file,
             int id)
         {
-            var productWithNewTitleAlreadyExists= await context.Products.AnyAsync(p => p.Title == body.Title);
+            var title = data["title"].ToString();
+            var description = data["description"].ToString();
+            var price = data["price"].ToString();
+
+            if (title == "" ||
+                description == "" ||
+                price == "")
+            {
+                return BadRequest(new {message = "Formato inválido."});
+            }
+
+            var productWithNewTitleAlreadyExists = await context.Products.AnyAsync(p => p.Title == title && p.Id != id);
             if (productWithNewTitleAlreadyExists)
             {
                 return BadRequest(new {message = "Já existe um produto com este nome."});
+            }
+
+            string imageUrl = "";
+            if (file != null)
+            {
+                var baseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+                var staticUploadsUrl = $"{baseUrl}/Uploads/";
+                var fileName = new ProductFile(file, _env.ContentRootPath).FileName;
+                imageUrl = $"{staticUploadsUrl}{fileName}";
+                Console.WriteLine(imageUrl);
             }
             
             var product = new Product
             {
                 Id = id, 
-                Title = body.Title, 
-                Description = body.Description, 
-                Price = body.Price
+                Title = title, 
+                Description = description, 
+                Price = Int32.Parse(price),
+                ImageUrl = imageUrl
             };
             context.Products.Attach(product);
             context.Entry(product).State = EntityState.Modified;

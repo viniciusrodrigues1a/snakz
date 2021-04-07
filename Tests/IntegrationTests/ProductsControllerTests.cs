@@ -100,12 +100,17 @@ namespace Tests.IntegrationTests
         [Fact]
         public async Task Update_Product_ReturnsNoContent()
         {
-            var response = await _testClient.PutAsync("/products/1", new Utils.JsonContent(new
-            {
-                Title = "New title",
-                Description = "New description",
-                Price = 30
-            }));
+            var formData = new MultipartFormDataContent();
+            var title = new StringContent("Double burger");
+            var description = new StringContent("Test product description");
+            var price = new StringContent("22");
+            var fakeFile = new StringContent("");
+            formData.Add(title, "title");
+            formData.Add(description, "description");
+            formData.Add(price, "price");
+            formData.Add(fakeFile, "file");
+
+            var response = await _testClient.PutAsync("/products/1", formData);
             
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
@@ -113,12 +118,17 @@ namespace Tests.IntegrationTests
         [Fact]
         public async Task Update_ProductTitleToOneThatAlreadyExists_ReturnsBadRequest()
         {
-            var response = await _testClient.PutAsync("/products/2", new Utils.JsonContent(new
-            {
-                Title = "Burger",
-                Description = "New description",
-                Price = 30
-            }));
+            var formData = new MultipartFormDataContent();
+            var title = new StringContent("Double burger");
+            var description = new StringContent("Test product description");
+            var price = new StringContent("22");
+            var fakeFile = new StringContent("");
+            formData.Add(title, "Burger");
+            formData.Add(description, "description");
+            formData.Add(price, "price");
+            formData.Add(fakeFile, "file");
+
+            var response = await _testClient.PutAsync("/products/2", formData);
             
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
