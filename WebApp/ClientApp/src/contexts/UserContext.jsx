@@ -9,10 +9,14 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("/sessions");
+      try {
+        const response = await fetch("/sessions");
 
-      if (response.status === 200) {
-        setIsLoggedIn(true);
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+        }
+      } catch (err) {
+        // User is not logged in
       }
       setHasContextMounted(true);
     })();
