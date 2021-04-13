@@ -8,7 +8,6 @@ import {
 } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-import { createTypePredicateNodeWithModifier } from "typescript";
 import { fetchProducts, fetchProduct } from "../../utils/fetchProducts";
 import { UserContext } from "../../contexts/UserContext";
 
