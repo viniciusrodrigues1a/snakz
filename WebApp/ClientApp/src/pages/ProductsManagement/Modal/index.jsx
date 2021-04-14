@@ -21,10 +21,10 @@ function UpdateModal({ onCancel, onConfirm, isOpen, children, title }) {
           <div>{children}</div>
 
           <div>
-            <Button variant="outline" color="#a24e4e" onClick={onCancel}>
+            <Button color="#a24e4e" onClick={onCancel}>
               Cancelar
             </Button>
-            <Button color="#4ea24e" onClick={onConfirm}>
+            <Button outlined color="#4ea24e" onClick={onConfirm}>
               Confirmar
             </Button>
           </div>

@@ -38,8 +38,9 @@ export const Button = styled.button.attrs(_ => ({
   border-radius: 0.15rem;
   padding: 0.4rem 0.75rem;
   letter-spacing: 0.02rem;
-  color: var(--dark);
+  color: ${({ outlined }) => (outlined ? "var(--dark)" : "var(--light)")};
   border: 1px solid ${({ color }) => color};
+  background-color: ${({ color, outlined }) => (outlined ? "none" : color)};
   transition: 0.2s;
 
   &:last-child {
@@ -47,7 +48,7 @@ export const Button = styled.button.attrs(_ => ({
   }
 
   &:hover {
-    background: ${({ color }) => color};
-    color: var(--light);
+    background: ${({ color, outlined }) => (outlined ? color : "none")};
+    color: ${({ outlined }) => (outlined ? "var(--light)" : "var(--dark)")};
   }
 `;
