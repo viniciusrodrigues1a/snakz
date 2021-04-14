@@ -5,6 +5,7 @@ import {
   IoPencil,
   IoTrashOutline,
   IoCloudUploadOutline,
+  IoAddOutline,
 } from "react-icons/io5";
 import { toast } from "react-toastify";
 
@@ -18,11 +19,7 @@ import Modal from "./Modal";
 
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
-import {
-  DeletionConfirmationMessage,
-  UpdateForm,
-  UpdateFormUpload,
-} from "./styles";
+import { AddProduct, ProductForm, ProductFormUpload } from "./styles";
 
 function ProductsManagement() {
   const { isLoggedIn } = useContext(UserContext);
@@ -32,7 +29,7 @@ function ProductsManagement() {
   const [deletionModal, setDeletionModal] = useState({
     shown: false,
   });
-  const [updateModal, setUpdateModal] = useState({
+  const [productModal, setProductModal] = useState({
     shown: false,
   });
   const priceInputRef = useRef(null);
@@ -154,7 +151,7 @@ function ProductsManagement() {
                       size={36}
                       color="#666"
                       onClick={() =>
-                        setUpdateModal({
+                        setProductModal({
                           shown: true,
                           product,
                         })
@@ -180,6 +177,15 @@ function ProductsManagement() {
             ))}
           </ProductsTable.Table>
         )}
+
+        <AddProduct>
+          <button
+            type="button"
+            onClick={() => setProductModal({ shown: true })}
+          >
+            <IoAddOutline size={32} color="#eee" />
+          </button>
+        </AddProduct>
       </ProductsTable.Content>
 
       <Modal
@@ -191,28 +197,34 @@ function ProductsManagement() {
             shown: false,
           });
         }}
-      >
-        <DeletionConfirmationMessage>
-          Deseja excluir este item?
-        </DeletionConfirmationMessage>
-      </Modal>
+        title={`Certeza que deseja excluir o item #${deletionModal.productId}?`}
+      />
 
       <Modal
-        isOpen={updateModal.shown}
-        onCancel={() => setUpdateModal({ shown: false })}
+        isOpen={productModal.shown}
+        onCancel={() => setProductModal({ shown: false })}
         onConfirm={async () => {
-          await updateProduct(updateModal.product.id);
-          setUpdateModal({ shown: false });
+          await updateProduct(productModal.product.id);
+          setProductModal({ shown: false });
         }}
+        title={
+          productModal.product
+            ? `Atualizando produto #${productModal.product.id}`
+            : "Criando novo produto"
+        }
       >
-        <UpdateForm>
+        <ProductForm>
           <div>
-            <UpdateFormUpload>
+            <ProductFormUpload>
               <img
                 ref={imageRef}
-                src={updateModal.product?.imageUrl}
+                src={
+                  productModal.product
+                    ? productModal.product.imageUrl
+                    : burgerFallbackImg
+                }
                 onError={imageFallback}
-                alt={updateModal.product?.title}
+                alt={productModal.product?.title}
               />
               <IoCloudUploadOutline color="lime" size={32} />
               <input
@@ -220,13 +232,12 @@ function ProductsManagement() {
                 ref={imageInputRef}
                 onChange={changeInputImageSrc}
               />
-            </UpdateFormUpload>
-
+            </ProductFormUpload>
             <input
               ref={titleInputRef}
               type="text"
               placeholder="NOME"
-              defaultValue={updateModal.product?.title}
+              defaultValue={productModal.product?.title}
             />
             <input
               ref={priceInputRef}
@@ -234,7 +245,7 @@ function ProductsManagement() {
               step="1"
               min="0"
               placeholder="PREÇO"
-              defaultValue={updateModal.product?.price}
+              defaultValue={productModal.product?.price}
             />
           </div>
 
@@ -242,9 +253,9 @@ function ProductsManagement() {
             ref={descriptionInputRef}
             type="text"
             placeholder="DESCRIÇÃO"
-            defaultValue={updateModal.product?.description}
+            defaultValue={productModal.product?.description}
           />
-        </UpdateForm>
+        </ProductForm>
       </Modal>
     </ProductsTable.Container>
   );

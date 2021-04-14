@@ -25,6 +25,12 @@ export const Content = styled.div`
   }
 `;
 
+export const ModalHeading = styled.h1`
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+`;
+
 export const Button = styled.button.attrs(_ => ({
   type: "button",
 }))`

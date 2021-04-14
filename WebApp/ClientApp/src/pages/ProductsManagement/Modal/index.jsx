@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
-import { Container, Content, Button } from "./styles";
+import { Container, Content, ModalHeading, Button } from "./styles";
 
-function UpdateModal({ onCancel, onConfirm, isOpen, children }) {
+function UpdateModal({ onCancel, onConfirm, isOpen, children, title }) {
   const containerRef = useRef(null);
 
   function handleClickOutsideOfModal(e) {
@@ -16,6 +16,8 @@ function UpdateModal({ onCancel, onConfirm, isOpen, children }) {
     return (
       <Container onClick={handleClickOutsideOfModal} ref={containerRef}>
         <Content>
+          <ModalHeading>{title}</ModalHeading>
+
           <div>{children}</div>
 
           <div>
@@ -42,6 +44,7 @@ UpdateModal.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default UpdateModal;
