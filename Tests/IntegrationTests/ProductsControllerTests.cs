@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Tests.Utils;
+using WebApp.Controllers;
 using WebApp.Models;
 using Xunit;
 
@@ -24,10 +25,20 @@ namespace Tests.IntegrationTests
         public async Task Get_Products_ReturnsList()
         {
             var response = await _testClient.GetAsync("/products");
-            var body = await response.Content.ReadFromJsonAsync<List<Product>>();
+            var body = await response.Content.ReadFromJsonAsync<List<ProductAndDiscount>>();
             
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.Equal(4, body.Count);
+        }
+
+        [Fact]
+        public async Task Get_Products_ReturnsListWithDiscounts()
+        {
+            var response = await _testClient.GetAsync("/products");
+            var body = await response.Content.ReadFromJsonAsync<List<ProductAndDiscount>>();
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(2, body[0].Discount.Amount);
         }
         
         // Show
@@ -35,10 +46,30 @@ namespace Tests.IntegrationTests
         public async Task GetById_Product_ReturnsJSON()
         {
             var response = await _testClient.GetAsync("/products/1");
-            var body = await response.Content.ReadFromJsonAsync<Product>();
+            var body = await response.Content.ReadFromJsonAsync<ProductAndDiscount>();
             
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal("Burger", body.Title);
+            Assert.Equal("Burger", body.Product.Title);
+        }
+        
+        [Fact]
+        public async Task GetById_ProductWithDiscount_ReturnsProductWithDiscount()
+        {
+            var response = await _testClient.GetAsync("/products/1");
+            var body = await response.Content.ReadFromJsonAsync<ProductAndDiscount>();
+            
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(2, body.Discount.Amount);
+        }
+        
+        [Fact]
+        public async Task GetById_ProductWithoutDiscount_ReturnsProductWithoutDiscount()
+        {
+            var response = await _testClient.GetAsync("/products/2");
+            var body = await response.Content.ReadFromJsonAsync<ProductAndDiscount>();
+            
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Null(body.Discount);
         }
         
         [Fact]

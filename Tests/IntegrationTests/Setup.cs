@@ -45,6 +45,7 @@ namespace Tests.IntegrationTests
         {
             RemoveEntries();
             SeedProducts();
+            SeedDiscounts();
             SeedUsers();
             SaveChanges();
         }
@@ -60,6 +61,11 @@ namespace Tests.IntegrationTests
             _context.Products.Add(new Product() { Id = 2, Title = "Test product 01", Description = "Test description", Price = 16 });
             _context.Products.Add(new Product() { Id = 3, Title = "Test product 02", Description = "Test description", Price = 22 });
             _context.Products.Add(new Product() { Id = 4, Title = "Test product 03", Description = "Test description", Price = 19 });
+        }
+
+        private void SeedDiscounts()
+        {
+            _context.Discounts.Add(new Discount() {Id = 1, ProductId = 1, Amount = 2});
         }
 
         private void SeedUsers()

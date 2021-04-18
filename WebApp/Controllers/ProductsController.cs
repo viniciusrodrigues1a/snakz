@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,17 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    public class ProductDiscount
+    {
+        public int Amount { get; set; }
+        public int PriceWithDiscount { get; set; }
+    }
+    public class ProductAndDiscount
+    {
+        public Product Product { get; set; }
+        public Discount Discount { get; set; }
+    }
+    
     [ApiController]
     [Route("[controller]")]
     public class ProductsController : ControllerBase
@@ -26,27 +38,33 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Product>>> Get([FromServices] DataContext context)
+        public async Task<List<ProductAndDiscount>> Get([FromServices] DataContext context)
         {
-            var products = await context.Products.ToListAsync();
+            var products= await (from p in context.Set<Product>() 
+                join d in context.Set<Discount>() 
+                    on p.Id equals d.ProductId into grouping 
+                from d in grouping.DefaultIfEmpty() 
+                select new ProductAndDiscount() { Product = p, Discount = d }).ToListAsync();
+
             return products;
         }
 
         [HttpGet]
         [Authorize]
         [Route("{id:int}")]
-        public async Task<ActionResult<Product>> GetById(
+        public async Task<ActionResult<ProductAndDiscount>> GetById(
             [FromServices] DataContext context,
             int id)
         {
             var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id);
-            
+            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.ProductId == id);
+
             if (product == null)
             {
                 return NotFound(new {message = "Produto não encontrado."});
             }
             
-            return product;
+            return new ProductAndDiscount() { Product = product, Discount = discount };
         }
         
         [HttpPost]
