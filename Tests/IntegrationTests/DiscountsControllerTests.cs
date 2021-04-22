@@ -28,6 +28,25 @@ namespace Tests.IntegrationTests
             Assert.Single(body);
         }
         
+        // Show
+        [Fact]
+        public async Task GetById_Discount_ReturnsDiscount()
+        {
+            var response = await _testClient.GetAsync("/discounts/1");
+            var body = await response.Content.ReadFromJsonAsync<Discount>();
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(2, body.Amount);
+        }
+        
+        [Fact]
+        public async Task GetById_DiscountThatDoesntExist_ReturnsNotFound()
+        {
+            var response = await _testClient.GetAsync("/discounts/189381");
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+        
         // Create
         [Fact]
         public async Task Post_Discount_ReturnsDiscount()

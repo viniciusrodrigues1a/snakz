@@ -25,6 +25,22 @@ namespace WebApp.Controllers {
 
             return discounts;
         }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Discount>> GetById(
+            [FromServices] DataContext context,
+            int id)
+        {
+            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+
+            if (discount == null)
+            {
+                return NotFound(new { Message = "Desconto não encontrado." });
+            }
+
+            return discount;
+        }
         
         [HttpPost]
         [Route("")]
