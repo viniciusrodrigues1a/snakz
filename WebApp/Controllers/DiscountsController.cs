@@ -14,6 +14,11 @@ namespace WebApp.Controllers {
         public int ProductId { get; set; }
     }
     
+    public class DiscountUpdateRequest
+    {
+        public int Amount { get; set; }
+    }
+    
     [ApiController]
     [Route("discounts")]
     public class DiscountController : ControllerBase {
@@ -71,6 +76,27 @@ namespace WebApp.Controllers {
             await context.SaveChangesAsync();
 
             return Created("GetDiscount", discount);
+        }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult> Put(
+            [FromServices] DataContext context,
+            [FromBody] DiscountUpdateRequest body,
+            int id)
+        {
+            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+            if (discount == null) {
+                return BadRequest(new {message = "Desconto não existe."});
+            }
+
+            discount.Amount = body.Amount;
+
+            context.Discounts.Attach(discount);
+            context.Entry(discount).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            
+            return Ok();
         }
     }
 }

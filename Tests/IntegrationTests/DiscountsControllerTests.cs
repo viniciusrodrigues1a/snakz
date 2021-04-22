@@ -81,5 +81,21 @@ namespace Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
+        
+        // Update
+        [Fact]
+        public async Task Put_Discount_ReturnsOK()
+        {
+            var response = await _testClient.PutAsJsonAsync("/discounts/1", new { Amount = 3 });
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        [Fact]
+        public async Task Put_DiscountThatDoesntExist_ReturnsBadRequest()
+        {
+            var response = await _testClient.PutAsJsonAsync("/discounts/187187", new { Amount = 3 });
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
