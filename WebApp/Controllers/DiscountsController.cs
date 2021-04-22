@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,15 @@ namespace WebApp.Controllers {
     [ApiController]
     [Route("discounts")]
     public class DiscountController : ControllerBase {
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult<List<Discount>>> GetAll([FromServices] DataContext context)
+        {
+            var discounts = await context.Discounts.ToListAsync();
+
+            return discounts;
+        }
+        
         [HttpPost]
         [Route("")]
         public async Task<ActionResult<Discount>> Post(

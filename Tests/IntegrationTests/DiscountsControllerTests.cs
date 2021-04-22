@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -14,6 +15,17 @@ namespace Tests.IntegrationTests
         public DiscountsControllerTests()
         {
             _testClient = new Setup().TestClient;
+        }
+        
+        // Index
+        [Fact]
+        public async Task GetAll_Discounts_ReturnsListOfDiscounts()
+        {
+            var response = await _testClient.GetAsync("/discounts");
+            var body = await response.Content.ReadFromJsonAsync<List<Discount>>();
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Single(body);
         }
         
         // Create
