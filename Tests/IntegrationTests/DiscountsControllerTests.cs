@@ -97,5 +97,22 @@ namespace Tests.IntegrationTests
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
+        
+        // Delete
+        [Fact]
+        public async Task Delete_Discount_ReturnsOK()
+        {
+            var response = await _testClient.DeleteAsync("/discounts/1");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+        
+        [Fact]
+        public async Task Delete_DiscountThatDoesntExist_ReturnsNotFound()
+        {
+            var response = await _testClient.DeleteAsync("/discounts/1971384");
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }

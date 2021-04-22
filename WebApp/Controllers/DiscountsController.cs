@@ -98,5 +98,24 @@ namespace WebApp.Controllers {
             
             return Ok();
         }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult> Delete(
+            [FromServices] DataContext context,
+            int id)
+        {
+            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+
+            if (discount == null)
+            {
+                return NotFound(new {message = "Desconto não encontrado."});
+            }
+            
+            context.Discounts.Remove(discount);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
