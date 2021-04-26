@@ -89,20 +89,17 @@ function ProductsManagement() {
         productsCopy[index] = product;
 
         setProducts(productsCopy);
-      } else {
-        toast.error("Algo deu errado ao atualizar item!", {
-          style: {
-            background: "#a24e4e",
-          },
-        });
       }
+      return;
     } catch (e) {
-      toast.error("Algo deu errado ao atualizar item!", {
-        style: {
-          background: "#a24e4e",
-        },
-      });
+        console.log(e.message);
     }
+    
+    toast.error("Algo deu errado ao atualizar item!", {
+      style: {
+        background: "#a24e4e",
+      },
+    });
   }
 
   function changeInputImageSrc(onChangeEvent) {
