@@ -205,7 +205,9 @@ function ProductsManagement() {
             shown: false,
           });
         }}
-        title={`Certeza que deseja excluir o item #${deletionModal.productId}?`}
+        title={`Certeza que deseja excluir o item #${
+          products.findIndex(p => p.id === deletionModal.productId) + 1
+        }?`}
       />
 
       <Modal
@@ -217,7 +219,9 @@ function ProductsManagement() {
         }}
         title={
           productModal.product
-            ? `Atualizando produto #${productModal.product.id}`
+            ? `Atualizando produto #${
+                products.indexOf(productModal.product) + 1
+              }`
             : "Criando novo produto"
         }
       >
