@@ -12,7 +12,6 @@ export const IconContainer = styled.div`
   display: inline-block;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
 
   &:after {
     content: "";
