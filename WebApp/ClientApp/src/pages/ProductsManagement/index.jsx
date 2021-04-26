@@ -144,6 +144,7 @@ function ProductsManagement() {
               <ProductsTable.Row key={String(product.id)}>
                 <ProductsTable.Image
                   src={product.imageUrl}
+                  onError={imageFallback}
                   alt={product.title}
                 />
                 <ProductsTable.Info
