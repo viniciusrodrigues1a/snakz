@@ -5,10 +5,10 @@ export async function fetchProducts() {
   const formattedResponse = response.map(p => {
     const amount = 1;
     return {
-      ...p,
+      ...p.product,
       amount,
-      formattedPrice: formatPrice(p.price),
-      formattedSubtotal: formatPrice(p.price * amount),
+      formattedPrice: formatPrice(p.product.price),
+      formattedSubtotal: formatPrice(p.product.price * amount),
     };
   });
   return formattedResponse;
@@ -17,7 +17,7 @@ export async function fetchProducts() {
 export async function fetchProduct(id) {
   const response = await fetch(`/products/${id}`).then(res => res.json());
   const formattedResponse = {
-    ...response,
+    ...response.product,
     formattedPrice: formatPrice(response.price),
   };
   return formattedResponse;
