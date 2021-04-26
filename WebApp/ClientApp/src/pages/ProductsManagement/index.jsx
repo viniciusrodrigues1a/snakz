@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+} from "react";
 import { useHistory } from "react-router-dom";
 import {
   IoFastFoodOutline,
@@ -38,17 +44,22 @@ function ProductsManagement() {
   const imageInputRef = useRef(null);
   const imageRef = useRef(null);
 
+  const makeAPICall = useCallback(async () => {
+    setLoaded(false);
+    const response = await fetchProducts();
+    setProducts(response);
+    setLoaded(true);
+  }, []);
+
   useEffect(() => {
     if (!isLoggedIn) {
       history.push("/admin");
     }
-
-    (async () => {
-      const response = await fetchProducts();
-      setProducts(response);
-      setLoaded(true);
-    })();
   }, [isLoggedIn, history]);
+
+  useEffect(() => {
+    (async () => makeAPICall())();
+  }, [makeAPICall]);
 
   async function deleteProduct(id) {
     const response = await fetch(`/products/${id}`, {
