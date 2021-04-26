@@ -75,8 +75,7 @@ function ProductsManagement() {
       return;
     }
 
-    const filteredProducts = products.filter(p => p.id !== id);
-    setProducts(filteredProducts);
+    await makeAPICall();
   }
 
   async function updateProduct(id) {
