@@ -15,7 +15,7 @@ import {
 } from "react-icons/io5";
 import { toast } from "react-toastify";
 
-import { fetchProducts, fetchProduct } from "../../utils/fetchProducts";
+import { fetchProducts } from "../../utils/fetchProducts";
 import { UserContext } from "../../contexts/UserContext";
 
 import ProductsTable from "../../components/ProductsTable";
@@ -78,7 +78,32 @@ function ProductsManagement() {
     await makeAPICall();
   }
 
-  async function updateProduct(id) {
+  async function handleModal() {
+    const formData = createFormData();
+    const isCreatingProduct = !productModal.product;
+
+    function errCallback(e) {
+      console.log(e);
+      toast.error(
+        `Algo deu errado ao ${isCreatingProduct ? "criar" : "atualizar"} item!`,
+        {
+          style: {
+            background: "#a24e4e",
+          },
+        }
+      );
+    }
+
+    if (isCreatingProduct) {
+      await makePostRequest(formData, errCallback);
+    } else {
+      await makePutRequest(formData, errCallback);
+    }
+
+    await makeAPICall();
+  }
+
+  function createFormData() {
     const formData = new FormData();
     formData.append("title", titleInputRef.current.value);
     formData.append("price", priceInputRef.current.value);
@@ -86,30 +111,40 @@ function ProductsManagement() {
     const [file] = imageInputRef.current.files;
     formData.append("file", file);
 
+    return formData;
+  }
+
+  async function makePostRequest(formData, errCallback) {
     try {
+      const response = await fetch("/products", {
+        method: "post",
+        body: formData,
+      });
+
+      const is2xxStatus = response.status.toString().startsWith("2");
+      if (!is2xxStatus) {
+        throw new Error(`Received a response status of ${response.status}`);
+      }
+    } catch (e) {
+      errCallback(e);
+    }
+  }
+
+  async function makePutRequest(formData, errCallback) {
+    try {
+      const { id } = productModal.product;
       const response = await fetch(`/products/${id}`, {
         method: "put",
         body: formData,
       });
 
-      if (response.status === 204) {
-        const product = await fetchProduct(id);
-        const index = products.map(p => p.id).indexOf(id);
-        const productsCopy = [...products];
-        productsCopy[index] = product;
-
-        setProducts(productsCopy);
+      const is2xxStatus = response.status.toString().startsWith("2");
+      if (!is2xxStatus) {
+        throw new Error(`Received a response status of ${response.status}`);
       }
-      return;
     } catch (e) {
-        console.log(e.message);
+      errCallback(e);
     }
-    
-    toast.error("Algo deu errado ao atualizar item!", {
-      style: {
-        background: "#a24e4e",
-      },
-    });
   }
 
   function changeInputImageSrc(onChangeEvent) {
@@ -214,7 +249,7 @@ function ProductsManagement() {
         isOpen={productModal.shown}
         onCancel={() => setProductModal({ shown: false })}
         onConfirm={async () => {
-          await updateProduct(productModal.product.id);
+          await handleModal();
           setProductModal({ shown: false });
         }}
         title={
