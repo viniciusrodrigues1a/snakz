@@ -30,7 +30,9 @@ function Header() {
 
   return (
     <Container>
-      <img src={logoImg} alt="Snakz" />
+      <Link to="/">
+        <img src={logoImg} alt="Snakz" />
+      </Link>
 
       <NavContainer isShown={isNavOpen}>
         <Nav>
