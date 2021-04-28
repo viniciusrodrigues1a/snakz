@@ -43,8 +43,12 @@ Modal.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]).isRequired,
+  ]),
   title: PropTypes.string.isRequired,
+};
+
+Modal.defaultProps = {
+  children: null,
 };
 
 export default Modal;
