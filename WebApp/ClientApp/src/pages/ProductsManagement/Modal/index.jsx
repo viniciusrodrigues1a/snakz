@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { Container, Content, ModalHeading, Button } from "./styles";
 
-function UpdateModal({ onCancel, onConfirm, isOpen, children, title }) {
+function Modal({ onCancel, onConfirm, isOpen, children, title }) {
   const containerRef = useRef(null);
 
   function handleClickOutsideOfModal(e) {
@@ -36,7 +36,7 @@ function UpdateModal({ onCancel, onConfirm, isOpen, children, title }) {
   return null;
 }
 
-UpdateModal.propTypes = {
+Modal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
@@ -47,4 +47,4 @@ UpdateModal.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default UpdateModal;
+export default Modal;
