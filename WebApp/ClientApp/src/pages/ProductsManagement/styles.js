@@ -33,18 +33,17 @@ export const ProductForm = styled.form`
     }
   }
 
-  > input,
-  > div > input {
-    border: 1px solid var(--dark);
-    padding: 1rem;
-    margin: 1rem;
-    height: 4rem;
-  }
-
   > input {
     margin: 0;
     width: 100%;
   }
+`;
+
+export const FormInput = styled.input`
+  border: 1px solid var(--dark);
+  padding: 1rem;
+  margin: 1rem;
+  height: 4rem;
 `;
 
 export const ProductFormUpload = styled.div`

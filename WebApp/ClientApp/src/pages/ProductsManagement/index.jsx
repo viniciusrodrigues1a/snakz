@@ -10,6 +10,7 @@ import {
   IoFastFoodOutline,
   IoPencil,
   IoTrashOutline,
+  IoPricetagOutline,
   IoCloudUploadOutline,
   IoAddOutline,
 } from "react-icons/io5";
@@ -22,10 +23,16 @@ import ProductsTable from "../../components/ProductsTable";
 import LoadingSpin from "../../components/LoadingSpin";
 import EmptyList from "../../components/EmptyList";
 import Modal from "./Modal";
+import Discount from "./Discount";
 
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
-import { AddProduct, ProductForm, ProductFormUpload } from "./styles";
+import {
+  AddProduct,
+  ProductForm,
+  FormInput,
+  ProductFormUpload,
+} from "./styles";
 
 function ProductsManagement() {
   const { isLoggedIn } = useContext(UserContext);
@@ -38,11 +45,15 @@ function ProductsManagement() {
   const [productModal, setProductModal] = useState({
     shown: false,
   });
+  const [discountModal, setDiscountModal] = useState({
+    shown: false,
+  });
   const priceInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
   const titleInputRef = useRef(null);
   const imageInputRef = useRef(null);
   const imageRef = useRef(null);
+  const discountAmountInputRef = useRef(null);
 
   const makeAPICall = useCallback(async () => {
     setLoaded(false);
@@ -63,7 +74,7 @@ function ProductsManagement() {
 
   async function deleteProduct(id) {
     const response = await fetch(`/products/${id}`, {
-      method: "delete",
+      eethod: "delete",
     });
 
     if (response.status !== 200) {
@@ -147,6 +158,82 @@ function ProductsManagement() {
     }
   }
 
+  async function handleDiscount() {
+    const isCreatingDiscount = !discountModal.product;
+
+    function errCallback(e) {
+      console.log(e);
+      toast.error(
+        `Algo deu errado ao ${
+          isCreatingDiscount ? "criar" : "atualizar"
+        } item!`,
+        {
+          style: {
+            background: "#a24e4e",
+          },
+        }
+      );
+    }
+
+    const body = getDiscountBody();
+
+    if (isCreatingDiscount) {
+      await createDiscount(body, errCallback);
+    } else {
+      await updateDiscount(body, errCallback);
+    }
+
+    await makeAPICall();
+  }
+
+  function getDiscountBody() {
+    return JSON.stringify({
+      amount: Number(discountAmountInputRef.current.value),
+      productId: discountModal.productId,
+    });
+  }
+
+  async function createDiscount(body, errCallback) {
+    try {
+      const response = await fetch("/discounts", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      const is2xxStatus = response.status.toString().startsWith("2");
+      if (!is2xxStatus) {
+        throw new Error(`Received a response status of ${response.status}`);
+      }
+    } catch (e) {
+      errCallback(e);
+    }
+  }
+
+  async function updateDiscount(body, errCallback) {
+    try {
+      const { discountId: id } = discountModal.product;
+      const response = await fetch(`/discounts/${id}`, {
+        method: "put",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      const is2xxStatus = response.status.toString().startsWith("2");
+      if (!is2xxStatus) {
+        throw new Error(`Received a response status of ${response.status}`);
+      }
+    } catch (e) {
+      errCallback(e);
+    }
+  }
+
   function changeInputImageSrc(onChangeEvent) {
     const reader = new FileReader();
 
@@ -184,10 +271,41 @@ function ProductsManagement() {
                 />
                 <ProductsTable.Info
                   title={product.title}
-                  price={product.formattedPrice}
+                  price={
+                    product.formattedDiscountPrice
+                      ? product.formattedDiscountPrice
+                      : product.formattedPrice
+                  }
                 />
                 <ProductsTable.Description description={product.description} />
-                <ProductsTable.Subtotal subtotal={product.formattedPrice} />
+                <Discount
+                  currentPrice={product.formattedDiscountPrice}
+                  originalPrice={product.formattedPrice}
+                  onUpdate={() => {
+                    setDiscountModal({
+                      shown: true,
+                      product,
+                    });
+                  }}
+                />
+                <ProductsTable.Action
+                  icon={
+                    !product.formattedDiscountPrice
+                      ? () => (
+                          <IoPricetagOutline
+                            size={36}
+                            color="#666"
+                            onClick={() => {
+                              setDiscountModal({
+                                shown: true,
+                                productId: product.id,
+                              });
+                            }}
+                          />
+                        )
+                      : null
+                  }
+                />
                 <ProductsTable.Action
                   icon={() => (
                     <IoPencil
@@ -274,19 +392,19 @@ function ProductsManagement() {
                 alt={productModal.product?.title}
               />
               <IoCloudUploadOutline color="lime" size={32} />
-              <input
+              <FormInput
                 type="file"
                 ref={imageInputRef}
                 onChange={changeInputImageSrc}
               />
             </ProductFormUpload>
-            <input
+            <FormInput
               ref={titleInputRef}
               type="text"
               placeholder="NOME"
               defaultValue={productModal.product?.title}
             />
-            <input
+            <FormInput
               ref={priceInputRef}
               type="number"
               step="1"
@@ -296,13 +414,39 @@ function ProductsManagement() {
             />
           </div>
 
-          <input
+          <FormInput
             ref={descriptionInputRef}
             type="text"
             placeholder="DESCRIÇÃO"
             defaultValue={productModal.product?.description}
           />
         </ProductForm>
+      </Modal>
+
+      <Modal
+        isOpen={discountModal.shown}
+        onConfirm={async () => {
+          await handleDiscount();
+          setDiscountModal({ shown: false });
+        }}
+        onCancel={() => setDiscountModal({ shown: false })}
+        title={
+          discountModal.product
+            ? `Atualizando desconto #${
+                products.indexOf(discountModal.product) + 1
+              }`
+            : `Criando desconto para o produto #${
+                products.findIndex(p => p.id === discountModal.productId) + 1
+              } `
+        }
+      >
+        <FormInput
+          ref={discountAmountInputRef}
+          type="number"
+          min="0"
+          step="0"
+          placeholder="DESCONTO"
+        />
       </Modal>
     </ProductsTable.Container>
   );
