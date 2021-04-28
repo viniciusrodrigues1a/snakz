@@ -79,11 +79,7 @@ const ProductsTable = {
     );
   },
   Action({ icon: Icon }) {
-    return (
-      <TdAction>
-        <Icon />
-      </TdAction>
-    );
+    return <TdAction>{Icon && <Icon />}</TdAction>;
   },
 };
 
