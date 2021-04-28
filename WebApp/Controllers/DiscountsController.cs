@@ -90,6 +90,11 @@ namespace WebApp.Controllers {
                 return BadRequest(new {message = "Desconto não existe."});
             }
 
+            if (body.Amount <= 0)
+            {
+                return BadRequest(new { Message = "Valor deve ser maior que 0." });
+            }
+
             discount.Amount = body.Amount;
 
             context.Discounts.Attach(discount);
