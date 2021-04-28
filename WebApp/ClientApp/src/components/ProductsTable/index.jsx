@@ -123,7 +123,11 @@ ProductsTable.Subtotal.propTypes = {
 };
 
 ProductsTable.Action.propTypes = {
-  icon: PropTypes.func.isRequired,
+  icon: PropTypes.func,
+};
+
+ProductsTable.Action.defaultProps = {
+  icon: null,
 };
 
 export default ProductsTable;
