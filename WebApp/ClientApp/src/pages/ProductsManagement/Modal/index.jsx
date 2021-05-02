@@ -24,7 +24,14 @@ function Modal({ onCancel, onConfirm, isOpen, children, title }) {
             <Button color="#a24e4e" onClick={onCancel}>
               Cancelar
             </Button>
-            <Button outlined color="#4ea24e" onClick={onConfirm}>
+            <Button
+              outlined
+              color="#4ea24e"
+              onClick={async () => {
+                await onConfirm();
+                onCancel();
+              }}
+            >
               Confirmar
             </Button>
           </div>

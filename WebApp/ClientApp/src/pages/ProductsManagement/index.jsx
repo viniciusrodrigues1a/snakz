@@ -11,42 +11,33 @@ import {
   IoPencil,
   IoTrashOutline,
   IoPricetagOutline,
-  IoCloudUploadOutline,
   IoAddOutline,
 } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 import { fetchProducts } from "../../utils/fetchProducts";
+import imageFallback from "../../utils/imageFallback";
 import { UserContext } from "../../contexts/UserContext";
 
 import ProductsTable from "../../components/ProductsTable";
 import LoadingSpin from "../../components/LoadingSpin";
 import EmptyList from "../../components/EmptyList";
 import Modal from "./Modal";
+import ModalContent from "./ModalContent";
 import Discount from "./Discount";
 
-import burgerFallbackImg from "../../assets/images/burger-illustration.png";
-
-import {
-  AddProduct,
-  ProductForm,
-  FormInput,
-  ProductFormUpload,
-} from "./styles";
+import { AddProduct } from "./styles";
 
 function ProductsManagement() {
   const { isLoggedIn } = useContext(UserContext);
   const history = useHistory();
   const [loaded, setLoaded] = useState(false);
   const [products, setProducts] = useState([]);
-  const [deletionModal, setDeletionModal] = useState({
+  const [modal, setModal] = useState({
     shown: false,
-  });
-  const [productModal, setProductModal] = useState({
-    shown: false,
-  });
-  const [discountModal, setDiscountModal] = useState({
-    shown: false,
+    title: "",
+    children: null,
+    onConfirm: () => {},
   });
   const priceInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
@@ -74,7 +65,7 @@ function ProductsManagement() {
 
   async function deleteProduct(id) {
     const response = await fetch(`/products/${id}`, {
-      eethod: "delete",
+      method: "delete",
     });
 
     if (response.status !== 200) {
@@ -89,32 +80,27 @@ function ProductsManagement() {
     await makeAPICall();
   }
 
-  async function handleModal() {
-    const formData = createFormData();
-    const isCreatingProduct = !productModal.product;
+  async function createProduct() {
+    const body = createProductFormData();
+    const response = await fetch("/products", {
+      method: "post",
+      body,
+    });
 
-    function errCallback(e) {
-      console.log(e);
-      toast.error(
-        `Algo deu errado ao ${isCreatingProduct ? "criar" : "atualizar"} item!`,
-        {
-          style: {
-            background: "#a24e4e",
-          },
-        }
-      );
-    }
-
-    if (isCreatingProduct) {
-      await makePostRequest(formData, errCallback);
-    } else {
-      await makePutRequest(formData, errCallback);
-    }
-
-    await makeAPICall();
+    throwErrorIfStatusIsInvalid(response.status.toString());
   }
 
-  function createFormData() {
+  async function updateProduct(productId) {
+    const body = createProductFormData();
+    const response = await fetch(`/products/${productId}`, {
+      method: "put",
+      body,
+    });
+
+    throwErrorIfStatusIsInvalid(response.status.toString());
+  }
+
+  function createProductFormData() {
     const formData = new FormData();
     formData.append("title", titleInputRef.current.value);
     formData.append("price", priceInputRef.current.value);
@@ -125,129 +111,67 @@ function ProductsManagement() {
     return formData;
   }
 
-  async function makePostRequest(formData, errCallback) {
-    try {
-      const response = await fetch("/products", {
-        method: "post",
-        body: formData,
-      });
+  async function createDiscount(productId) {
+    const body = createDiscountBody(productId);
+    const response = await fetch("/discounts", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
-      const is2xxStatus = response.status.toString().startsWith("2");
-      if (!is2xxStatus) {
-        throw new Error(`Received a response status of ${response.status}`);
-      }
-    } catch (e) {
-      errCallback(e);
-    }
+    throwErrorIfStatusIsInvalid(response.status.toString());
   }
 
-  async function makePutRequest(formData, errCallback) {
-    try {
-      const { id } = productModal.product;
-      const response = await fetch(`/products/${id}`, {
-        method: "put",
-        body: formData,
-      });
+  async function updateDiscount(discountId) {
+    const body = createDiscountBody();
+    const response = await fetch(`/discounts/${discountId}`, {
+      method: "put",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
-      const is2xxStatus = response.status.toString().startsWith("2");
-      if (!is2xxStatus) {
-        throw new Error(`Received a response status of ${response.status}`);
-      }
-    } catch (e) {
-      errCallback(e);
-    }
+    throwErrorIfStatusIsInvalid(response.status.toString());
   }
 
-  async function handleDiscount() {
-    const isCreatingDiscount = !discountModal.product;
-
-    function errCallback(e) {
-      console.log(e);
-      toast.error(
-        `Algo deu errado ao ${
-          isCreatingDiscount ? "criar" : "atualizar"
-        } item!`,
-        {
-          style: {
-            background: "#a24e4e",
-          },
-        }
-      );
-    }
-
-    const body = getDiscountBody();
-
-    if (isCreatingDiscount) {
-      await createDiscount(body, errCallback);
-    } else {
-      await updateDiscount(body, errCallback);
-    }
-
-    await makeAPICall();
-  }
-
-  function getDiscountBody() {
+  function createDiscountBody(productId = undefined) {
     return JSON.stringify({
       amount: Number(discountAmountInputRef.current.value),
-      productId: discountModal.productId,
+      productId,
     });
   }
 
-  async function createDiscount(body, errCallback) {
-    try {
-      const response = await fetch("/discounts", {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body,
-      });
-
-      const is2xxStatus = response.status.toString().startsWith("2");
-      if (!is2xxStatus) {
-        throw new Error(`Received a response status of ${response.status}`);
-      }
-    } catch (e) {
-      errCallback(e);
+  function throwErrorIfStatusIsInvalid(status) {
+    const is2xxStatus = status.startsWith("2");
+    if (!is2xxStatus) {
+      throw new Error(`Received a response status of ${status}`);
     }
   }
 
-  async function updateDiscount(body, errCallback) {
+  function findFormattedIndexOfProduct(product) {
+    return products.indexOf(product) + 1;
+  }
+
+  function showToastError(title) {
+    toast.error(title, {
+      style: {
+        background: "#a24e4e",
+      },
+    });
+  }
+
+  async function handleModalConfirmation(onConfirmCallback) {
     try {
-      const { discountId: id } = discountModal.product;
-      const response = await fetch(`/discounts/${id}`, {
-        method: "put",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body,
-      });
-
-      const is2xxStatus = response.status.toString().startsWith("2");
-      if (!is2xxStatus) {
-        throw new Error(`Received a response status of ${response.status}`);
-      }
-    } catch (e) {
-      errCallback(e);
+      await onConfirmCallback();
+      await makeAPICall();
+    } catch (_) {
+      showToastError("Ocorreu um erro!");
     }
-  }
-
-  function changeInputImageSrc(onChangeEvent) {
-    const reader = new FileReader();
-
-    reader.onload = onLoadEvent => {
-      imageRef.current.src = onLoadEvent.target.result;
-    };
-
-    const file = onChangeEvent.target.files[0];
-
-    reader.readAsDataURL(file);
-  }
-
-  function imageFallback(e) {
-    e.target.src = burgerFallbackImg;
   }
 
   return (
@@ -282,9 +206,19 @@ function ProductsManagement() {
                   currentPrice={product.formattedDiscountPrice}
                   originalPrice={product.formattedPrice}
                   onUpdate={() => {
-                    setDiscountModal({
+                    setModal({
                       shown: true,
                       product,
+                      title: `Atualizando desconto do produto #${findFormattedIndexOfProduct(
+                        product
+                      )}`,
+                      onConfirm: () => updateDiscount(product.discountId),
+
+                      children: (
+                        <ModalContent.Discount
+                          discountAmountInputRef={discountAmountInputRef}
+                        />
+                      ),
                     });
                   }}
                 />
@@ -296,9 +230,20 @@ function ProductsManagement() {
                             size={36}
                             color="#666"
                             onClick={() => {
-                              setDiscountModal({
+                              setModal({
                                 shown: true,
-                                productId: product.id,
+                                product,
+                                title: `Criando desconto para o produto #${findFormattedIndexOfProduct(
+                                  product
+                                )}`,
+                                onConfirm: () => createDiscount(product.id),
+                                children: (
+                                  <ModalContent.Discount
+                                    discountAmountInputRef={
+                                      discountAmountInputRef
+                                    }
+                                  />
+                                ),
                               });
                             }}
                           />
@@ -312,9 +257,22 @@ function ProductsManagement() {
                       size={36}
                       color="#666"
                       onClick={() =>
-                        setProductModal({
+                        setModal({
                           shown: true,
-                          product,
+                          title: `Atualizando produto #${findFormattedIndexOfProduct(
+                            product
+                          )}`,
+                          children: (
+                            <ModalContent.Product
+                              imageInputRef={imageInputRef}
+                              imageRef={imageRef}
+                              titleInputRef={titleInputRef}
+                              priceInputRef={priceInputRef}
+                              descriptionInputRef={descriptionInputRef}
+                              product={product}
+                            />
+                          ),
+                          onConfirm: () => updateProduct(product.id),
                         })
                       }
                     />
@@ -326,9 +284,12 @@ function ProductsManagement() {
                       size={36}
                       color="#666"
                       onClick={() =>
-                        setDeletionModal({
+                        setModal({
                           shown: true,
-                          productId: product.id,
+                          title: `Certeza que deseja excluir o item #${findFormattedIndexOfProduct(
+                            product
+                          )}?`,
+                          onConfirm: () => deleteProduct(product.id),
                         })
                       }
                     />
@@ -342,7 +303,22 @@ function ProductsManagement() {
         <AddProduct>
           <button
             type="button"
-            onClick={() => setProductModal({ shown: true })}
+            onClick={() =>
+              setModal({
+                shown: true,
+                title: "Criando novo produto",
+                children: (
+                  <ModalContent.Product
+                    imageInputRef={imageInputRef}
+                    imageRef={imageRef}
+                    titleInputRef={titleInputRef}
+                    priceInputRef={priceInputRef}
+                    descriptionInputRef={descriptionInputRef}
+                  />
+                ),
+                onConfirm: () => createProduct(),
+              })
+            }
           >
             <IoAddOutline size={32} color="#eee" />
           </button>
@@ -350,103 +326,16 @@ function ProductsManagement() {
       </ProductsTable.Content>
 
       <Modal
-        isOpen={deletionModal.shown}
-        onCancel={() => setDeletionModal({ shown: false })}
+        isOpen={modal.shown}
+        onCancel={() => {
+          setModal({ shown: false });
+        }}
         onConfirm={() => {
-          deleteProduct(deletionModal.productId);
-          setDeletionModal({
-            shown: false,
-          });
+          handleModalConfirmation(modal.onConfirm);
         }}
-        title={`Certeza que deseja excluir o item #${
-          products.findIndex(p => p.id === deletionModal.productId) + 1
-        }?`}
-      />
-
-      <Modal
-        isOpen={productModal.shown}
-        onCancel={() => setProductModal({ shown: false })}
-        onConfirm={async () => {
-          await handleModal();
-          setProductModal({ shown: false });
-        }}
-        title={
-          productModal.product
-            ? `Atualizando produto #${
-                products.indexOf(productModal.product) + 1
-              }`
-            : "Criando novo produto"
-        }
+        title={modal.title}
       >
-        <ProductForm>
-          <div>
-            <ProductFormUpload>
-              <img
-                ref={imageRef}
-                src={
-                  productModal.product
-                    ? productModal.product.imageUrl
-                    : burgerFallbackImg
-                }
-                onError={imageFallback}
-                alt={productModal.product?.title}
-              />
-              <IoCloudUploadOutline color="lime" size={32} />
-              <FormInput
-                type="file"
-                ref={imageInputRef}
-                onChange={changeInputImageSrc}
-              />
-            </ProductFormUpload>
-            <FormInput
-              ref={titleInputRef}
-              type="text"
-              placeholder="NOME"
-              defaultValue={productModal.product?.title}
-            />
-            <FormInput
-              ref={priceInputRef}
-              type="number"
-              step="1"
-              min="0"
-              placeholder="PREÇO"
-              defaultValue={productModal.product?.price}
-            />
-          </div>
-
-          <FormInput
-            ref={descriptionInputRef}
-            type="text"
-            placeholder="DESCRIÇÃO"
-            defaultValue={productModal.product?.description}
-          />
-        </ProductForm>
-      </Modal>
-
-      <Modal
-        isOpen={discountModal.shown}
-        onConfirm={async () => {
-          await handleDiscount();
-          setDiscountModal({ shown: false });
-        }}
-        onCancel={() => setDiscountModal({ shown: false })}
-        title={
-          discountModal.product
-            ? `Atualizando desconto #${
-                products.indexOf(discountModal.product) + 1
-              }`
-            : `Criando desconto para o produto #${
-                products.findIndex(p => p.id === discountModal.productId) + 1
-              } `
-        }
-      >
-        <FormInput
-          ref={discountAmountInputRef}
-          type="number"
-          min="0"
-          step="0"
-          placeholder="DESCONTO"
-        />
+        {modal.children}
       </Modal>
     </ProductsTable.Container>
   );
