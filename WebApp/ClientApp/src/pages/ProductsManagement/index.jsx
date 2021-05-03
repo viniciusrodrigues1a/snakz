@@ -68,16 +68,7 @@ function ProductsManagement() {
       method: "delete",
     });
 
-    if (response.status !== 200) {
-      toast.error("Algo deu errado ao deletar item!", {
-        style: {
-          background: "#a24e4e",
-        },
-      });
-      return;
-    }
-
-    await makeAPICall();
+    throwErrorIfStatusIsInvalid(response.status.toString());
   }
 
   async function createProduct() {
