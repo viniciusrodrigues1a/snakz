@@ -111,6 +111,14 @@ function ProductsManagement() {
     return formData;
   }
 
+  async function deleteDiscount(discountId) {
+    const response = await fetch(`/discounts/${discountId}`, {
+      method: "delete",
+    });
+
+    throwErrorIfStatusIsInvalid(response.status.toString());
+  }
+
   async function createDiscount(productId) {
     const body = createDiscountBody(productId);
     const response = await fetch("/discounts", {
@@ -219,6 +227,15 @@ function ProductsManagement() {
                           discountAmountInputRef={discountAmountInputRef}
                         />
                       ),
+                    });
+                  }}
+                  onDelete={() => {
+                    setModal({
+                      shown: true,
+                      title: `Deletando desconto do produto #${findFormattedIndexOfProduct(
+                        product
+                      )}`,
+                      onConfirm: () => deleteDiscount(product.discountId),
                     });
                   }}
                 />
