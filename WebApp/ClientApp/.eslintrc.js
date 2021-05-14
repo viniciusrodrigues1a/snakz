@@ -40,6 +40,7 @@ module.exports = {
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-nested-ternary": "off",
     "no-use-before-define": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "no-plusplus": "off"
   }
 };

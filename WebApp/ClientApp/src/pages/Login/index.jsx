@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { IoPerson, IoLockClosed, IoArrowForwardOutline } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
 
+import Header from "../../components/Header";
 import LoadingSpin from "../../components/LoadingSpin";
 
 import { UserContext } from "../../contexts/UserContext";
@@ -105,53 +106,56 @@ function Login() {
   }
 
   return (
-    <Container>
-      <Form>
-        <AdminIcon>
-          <IoPerson size={48} color="#ccc" />
-          <IoLockClosed size={20} color="rgba(162, 78, 78, 1)" />
-        </AdminIcon>
+    <>
+      <Header />
+      <Container>
+        <Form>
+          <AdminIcon>
+            <IoPerson size={48} color="#ccc" />
+            <IoLockClosed size={20} color="rgba(162, 78, 78, 1)" />
+          </AdminIcon>
 
-        <InputContainer>
-          <Input
-            type="text"
-            required
-            onFocus={() => setIsUserInputActive(true)}
-            onBlur={() => user === "" && setIsUserInputActive(false)}
-            value={user}
-            onChange={e => setUser(e.target.value)}
-            isValid={user !== ""}
-          />
-          <InputPlaceholder isActive={isUserInputActive}>
-            Usuário
-          </InputPlaceholder>
-        </InputContainer>
+          <InputContainer>
+            <Input
+              type="text"
+              required
+              onFocus={() => setIsUserInputActive(true)}
+              onBlur={() => user === "" && setIsUserInputActive(false)}
+              value={user}
+              onChange={e => setUser(e.target.value)}
+              isValid={user !== ""}
+            />
+            <InputPlaceholder isActive={isUserInputActive}>
+              Usuário
+            </InputPlaceholder>
+          </InputContainer>
 
-        <InputContainer>
-          <Input
-            type="password"
-            required
-            onFocus={() => setIsPassInputActive(true)}
-            onBlur={() => pass === "" && setIsPassInputActive(false)}
-            value={pass}
-            onChange={e => setPass(e.target.value)}
-            isValid={pass !== ""}
-          />
-          <InputPlaceholder isActive={isPassInputActive}>
-            Senha
-          </InputPlaceholder>
-        </InputContainer>
+          <InputContainer>
+            <Input
+              type="password"
+              required
+              onFocus={() => setIsPassInputActive(true)}
+              onBlur={() => pass === "" && setIsPassInputActive(false)}
+              value={pass}
+              onChange={e => setPass(e.target.value)}
+              isValid={pass !== ""}
+            />
+            <InputPlaceholder isActive={isPassInputActive}>
+              Senha
+            </InputPlaceholder>
+          </InputContainer>
 
-        <SubmitButton onClick={handleSubmit} disabled={isButtonDisabled}>
-          Entrar
-          <IoArrowForwardOutline size={24} color="#fff" />
-        </SubmitButton>
+          <SubmitButton onClick={handleSubmit} disabled={isButtonDisabled}>
+            Entrar
+            <IoArrowForwardOutline size={24} color="#fff" />
+          </SubmitButton>
 
-        <ErrorMessage ref={feedbackRef} color={feedback.color}>
-          {feedback.message}
-        </ErrorMessage>
-      </Form>
-    </Container>
+          <ErrorMessage ref={feedbackRef} color={feedback.color}>
+            {feedback.message}
+          </ErrorMessage>
+        </Form>
+      </Container>
+    </>
   );
 }
 

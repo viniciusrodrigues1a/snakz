@@ -24,6 +24,7 @@ const GlobalStyles = createGlobalStyle`
     --orange: #FC7A57;
     --dark-red: #962F2F;
     --underlined-highlight: rgba(186, 80, 39, 0.5);
+    --primary: #CD461B;
   }
 
   @media (max-width: 1080px) {

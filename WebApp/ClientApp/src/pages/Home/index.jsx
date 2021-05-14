@@ -5,6 +5,7 @@ import {
   IoBagHandleOutline,
   IoFastFoodOutline,
   IoArrowForwardOutline,
+  IoMenuOutline,
 } from "react-icons/io5";
 
 import animate from "./utils/animations";
@@ -18,17 +19,26 @@ import SelectAmount from "../../components/SelectAmount";
 import EmptyList from "../../components/EmptyList";
 import BottomNotification from "./BottomNotification";
 
+import heroImg from "../../assets/images/hero.png";
+import logoImg from "../../assets/images/logo.png";
 import burgerFallbackImg from "../../assets/images/burger-illustration.png";
 
 import {
   Container,
-  HeroContainer,
   FixedBagLinkContainer,
   FixedBagItemsIndicator,
+  Header,
+  HeaderContent,
   BackgroundOverlay,
-  HeroContent,
-  HeroIntroduction,
-  HeroDescription,
+  NavContainer,
+  Navbar,
+  NavList,
+  NavItem,
+  NavItemBag,
+  DropdownButton,
+  HeroContainer,
+  HeroTitle,
+  HeroSubtitle,
   MenuContainer,
   MenuCardGrid,
   MenuCard,
@@ -42,6 +52,7 @@ let fadeoutTimeout = null;
 let visibilityTimeout = null;
 
 function Home() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [products, setProducts] = useState([]);
   const [notification, setNotification] = useState({
@@ -63,6 +74,12 @@ function Home() {
       setLoaded(true);
     })();
   }, []);
+
+  useEffect(() => {
+    history.listen(() => {
+      setIsNavOpen(false);
+    });
+  }, [history]);
 
   function handleAddingItemToBag(product) {
     resetTimeouts();
@@ -178,21 +195,49 @@ function Home() {
           )}
         </Link>
       </FixedBagLinkContainer>
-      <HeroContainer>
+
+      <Header img={heroImg}>
         <BackgroundOverlay>
-          <HeroContent>
-            <HeroIntroduction>
-              Hambúrguer para{" "}
-              <div>
-                <strong>todo mundo!</strong>
-              </div>
-            </HeroIntroduction>
-            <HeroDescription>
-              Venha lanchar na melhor lanchonete da cidade!
-            </HeroDescription>
-          </HeroContent>
+          <HeaderContent>
+            <NavContainer isNavOpen={isNavOpen}>
+              <Link to="/">
+                <img src={logoImg} alt="Snakz" />
+              </Link>
+
+              <Navbar isNavOpen={isNavOpen}>
+                <NavList>
+                  <NavItem>
+                    <a href="#menu">Cardápio</a>
+                  </NavItem>
+                  <NavItem>
+                    <a href="#footer">Contato</a>
+                  </NavItem>
+                  <NavItemBag>
+                    <Link to="/sacola">
+                      <IoBagHandleOutline size={28} />
+                      <strong>Sacola</strong>
+                    </Link>
+                  </NavItemBag>
+                </NavList>
+              </Navbar>
+
+              <DropdownButton onClick={() => setIsNavOpen(!isNavOpen)}>
+                <IoMenuOutline color="#fff" size={48} />
+              </DropdownButton>
+            </NavContainer>
+
+            <HeroContainer>
+              <HeroTitle>
+                Hamburguer para <span>todo mundo!</span>
+              </HeroTitle>
+
+              <HeroSubtitle>
+                Venha lanchar no melhor lugar da cidade!
+              </HeroSubtitle>
+            </HeroContainer>
+          </HeaderContent>
         </BackgroundOverlay>
-      </HeroContainer>
+      </Header>
 
       <MenuContainer id="menu">
         <UnderlinedTitle>Cardápio</UnderlinedTitle>

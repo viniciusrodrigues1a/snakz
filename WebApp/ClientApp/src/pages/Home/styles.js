@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import heroImg from "../../assets/images/hero.png";
-
 export const Container = styled.main`
   padding-bottom: 18rem;
 `;
@@ -44,96 +42,197 @@ export const FixedBagItemsIndicator = styled.span`
   font-weight: bold;
 `;
 
-/* Hero section */
-export const HeroContainer = styled.div`
-  background-image: url(${heroImg});
-  background-position: 60%;
-  width: 100%;
-  height: 614px;
-  position: relative;
-
-  @media (min-width: 996px) {
-    background-position: center;
-    height: 714px;
-  }
-
-  @media (min-width: 1280px) {
-    height: 814px;
-  }
+/* Header */
+export const Header = styled.header`
+  background-image: url(${({ img }) => img});
+  background-position: center;
+  background-size: cover;
+  height: 36rem;
 `;
 
 export const BackgroundOverlay = styled.div`
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #000000, rgba(22, 22, 22, 0.6));
+  background: linear-gradient(
+    97.96deg,
+    rgba(0, 0, 0, 0.8) 50.01%,
+    rgba(34, 34, 34, 0.4) 100%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 `;
 
-export const HeroContent = styled.div`
+export const HeaderContent = styled.div`
+  width: 100%;
+  max-width: 100rem;
+  margin: 0 auto;
+`;
+
+export const NavContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0 2.75rem;
+  height: 9rem;
+  background-color: ${({ isNavOpen }) => (isNavOpen ? "var(--dark)" : "none")};
+
+  @media (min-width: 776px) {
+    background-color: transparent !important;
+  }
+`;
+
+export const Navbar = styled.nav`
+  display: ${({ isNavOpen }) => (isNavOpen ? "initial" : "none")};
+  border-top: 1px solid var(--orange);
+  background: ${({ isNavOpen }) => (isNavOpen ? "var(--dark)" : "none")};
+  width: 100vw;
+  padding: 2.5rem 0;
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+
+  @media (min-width: 48.5rem) {
+    display: initial !important;
+    width: initial;
+    position: initial;
+    transform: initial;
+    border: 0;
+    padding: 0;
+    bottom: 0;
+    left: 50%;
+    background-color: transparent !important;
+  }
+`;
+
+export const NavList = styled.ul`
+  list-style: none;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  padding: 0 2.75rem;
+  align-items: center;
+
+  @media (min-width: 48.5rem) {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+  }
 `;
 
-export const HeroIntroduction = styled.h1`
-  font-size: 3rem;
-  font-weight: normal;
-  line-height: 4.5rem;
-  color: var(--light);
-  opacity: 0.85;
+export const NavItem = styled.li`
+  > a {
+    font-weight: 500;
+    font-size: 1.3rem;
+    letter-spacing: 0.05rem;
+    transition: 0.1s;
+    color: var(--light);
+    text-transform: uppercase;
+  }
 
-  strong {
-    font-weight: bold;
-    position: relative;
-    z-index: 1;
+  & + & {
+    margin-top: 1.5rem;
+  }
 
-    &:after {
-      content: "";
-      width: 100%;
-      height: 1rem;
-      position: absolute;
-      bottom: 0.55rem;
-      left: 0;
-      background-color: var(--underlined-highlight);
-      transform: rotate(-1deg);
-      z-index: -1;
+  @media (min-width: 48.5rem) {
+    & + & {
+      margin-top: 0;
+      margin-left: 2.5rem;
+    }
+
+    a:hover {
+      filter: brightness(0.85);
     }
   }
 
-  @media (min-width: 996px) {
-    font-size: 4.5rem;
-    line-height: 5rem;
-
-    strong:after {
-      height: 1.25rem;
-      bottom: 0.75rem;
+  @media (min-width: 64rem) {
+    > a {
+      font-size: 1.45rem;
     }
-  }
 
-  @media (min-width: 1280px) {
-    font-size: 6rem;
-    line-height: 7.5rem;
-
-    strong:after {
-      height: 1.65rem;
+    & + & {
+      margin-left: 4rem;
     }
   }
 `;
 
-export const HeroDescription = styled.p`
-  font-size: 1.65rem;
-  margin-top: 4.5rem;
+export const NavItemBag = styled.li`
+  margin-top: 1.5rem;
+
+  a {
+    font-size: 1.4rem;
+    transition: 0.1s;
+    letter-spacing: 0.05rem;
+    color: var(--light);
+    background-color: var(--orange);
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    height: 3.25rem;
+    padding: 0 0.8rem;
+    text-transform: uppercase;
+  }
+
+  a strong {
+    margin-left: 0.9rem;
+    font-weight: 500;
+  }
+
+  @media (min-width: 48.5rem) {
+    &:hover {
+      color: var(--light);
+      transform: scale(1.05);
+      box-shadow: 2px 2px 4px var(--orange);
+    }
+
+    a:hover {
+      color: var(--light);
+    }
+
+    margin-top: 0;
+    margin-left: 2.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    a {
+      font-size: 1.55rem;
+    }
+
+    margin-left: 4rem;
+  }
+`;
+
+export const DropdownButton = styled.button`
+  border: 0;
+  padding: 0;
+  background: none;
+
+  @media (min-width: 48.5rem) {
+    display: none;
+  }
+`;
+
+export const HeroContainer = styled.div`
+  margin-top: 6rem;
   color: var(--light);
-  opacity: 0.85;
+  padding: 0 2rem;
+`;
 
-  @media (min-width: 996px) {
-    font-size: 2rem;
-  }
+export const HeroTitle = styled.h1`
+  font-weight: 700;
+  font-size: 2.625rem;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 
-  @media (min-width: 1280px) {
-    font-size: 2.35rem;
+  > span {
+    color: var(--primary);
   }
+`;
+
+export const HeroSubtitle = styled.h2`
+  font-weight: 500;
+  font-size: 1.325rem;
+  margin-top: 2.5rem;
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0.9;
 `;
 
 /* Menu section */
