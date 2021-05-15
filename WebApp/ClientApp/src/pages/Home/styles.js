@@ -219,20 +219,44 @@ export const HeroContainer = styled.div`
 
 export const HeroTitle = styled.h1`
   font-weight: 700;
-  font-size: 2.625rem;
+  font-size: 2.65rem;
   text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 
   > span {
     color: var(--primary);
   }
+
+  @media (min-width: 48.5rem) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 68.75rem) {
+    font-size: 3.3rem;
+  }
+
+  @media (min-width: 100rem) {
+    font-size: 3.6rem;
+  }
 `;
 
 export const HeroSubtitle = styled.h2`
   font-weight: 500;
-  font-size: 1.325rem;
+  font-size: 1.35rem;
   margin-top: 2.5rem;
   text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
   opacity: 0.9;
+
+  @media (min-width: 48.5rem) {
+    font-size: 1.45rem;
+  }
+
+  @media (min-width: 68.75rem) {
+    font-size: 1.55rem;
+  }
+
+  @media (min-width: 100rem) {
+    font-size: 1.65rem;
+  }
 `;
 
 /* Menu section */
