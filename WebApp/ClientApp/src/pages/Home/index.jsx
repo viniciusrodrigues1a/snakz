@@ -13,9 +13,7 @@ import formatPrice from "../../utils/formatPrice";
 import { fetchProducts } from "../../utils/fetchProducts";
 import { BagContext } from "../../contexts/BagContext";
 
-import UnderlinedTitle from "../../components/UnderlinedTitle";
 import LoadingSpin from "../../components/LoadingSpin";
-import SelectAmount from "../../components/SelectAmount";
 import EmptyList from "../../components/EmptyList";
 import BottomNotification from "./BottomNotification";
 
@@ -39,13 +37,15 @@ import {
   HeroContainer,
   HeroTitle,
   HeroSubtitle,
-  MenuContainer,
-  MenuCardGrid,
-  MenuCard,
-  MenuCardOptionList,
-  MenuCardOption,
-  MenuCardPrice,
-  MenuCardBagButton,
+  Section,
+  SectionTitle,
+  Product,
+  ProductImageContainer,
+  AddToCartButton,
+  ProductInfo,
+  ProductTitle,
+  ProductDescription,
+  ProductPrice,
 } from "./styles";
 
 let fadeoutTimeout = null;
@@ -239,9 +239,8 @@ function Home() {
         </BackgroundOverlay>
       </Header>
 
-      <MenuContainer id="menu">
-        <UnderlinedTitle>Cardápio</UnderlinedTitle>
-
+      <Section id="menu">
+        <SectionTitle>Cardápio</SectionTitle>
         {!loaded ? (
           <LoadingSpin />
         ) : loaded && products.length === 0 ? (
@@ -250,41 +249,34 @@ function Home() {
             message="Não há nada aqui"
           />
         ) : (
-          <MenuCardGrid>
-            {products.map((product, index) => (
-              <MenuCard key={String(index)}>
+          products.map(product => (
+            <Product>
+              <ProductImageContainer>
                 <img
                   src={product.imageUrl}
                   alt={product.title}
                   onError={imageFallback}
                 />
-                <strong>{product.title}</strong>
-                <span>{product.description}</span>
-
-                <MenuCardOptionList>
-                  <MenuCardOption width="38%">
-                    <SelectAmount
-                      onChangeAmount={changeProductAmount(product.title)}
-                    />
-                  </MenuCardOption>
-
-                  <MenuCardOption width="38%">
-                    <MenuCardPrice>{product.formattedSubtotal}</MenuCardPrice>
-                  </MenuCardOption>
-
-                  <MenuCardOption>
-                    <MenuCardBagButton
-                      onClick={() => handleAddingItemToBag(product)}
-                    >
-                      <IoBagAddOutline size={28} color="#ffffff" />
-                    </MenuCardBagButton>
-                  </MenuCardOption>
-                </MenuCardOptionList>
-              </MenuCard>
-            ))}
-          </MenuCardGrid>
+                <AddToCartButton
+                  type="button"
+                  onClick={() => handleAddingItemToBag(product)}
+                >
+                  <IoBagAddOutline color="var(--light)" size={28} />
+                </AddToCartButton>
+              </ProductImageContainer>
+              <ProductInfo>
+                <ProductTitle>Cheddar bacon</ProductTitle>
+                <ProductDescription>
+                  hamburger, bacon, mussarela, molho especial, picles
+                </ProductDescription>
+                <ProductPrice>
+                  <strong>R$ 16,90</strong>
+                </ProductPrice>
+              </ProductInfo>
+            </Product>
+          ))
         )}
-      </MenuContainer>
+      </Section>
     </Container>
   );
 }
