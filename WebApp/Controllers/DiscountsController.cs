@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
+using System.Linq;
 
 namespace WebApp.Controllers {
     public class DiscountRequest
@@ -24,9 +25,13 @@ namespace WebApp.Controllers {
     public class DiscountController : ControllerBase {
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Discount>>> GetAll([FromServices] DataContext context)
+        public async Task<ActionResult<List<ProductAndDiscount>>> GetAll([FromServices] DataContext context)
         {
-            var discounts = await context.Discounts.ToListAsync();
+            var discounts = await (from d in context.Set<Discount>()
+                join p in context.Set<Product>()
+                    on d.ProductId equals p.Id into grouping
+                from p in grouping.DefaultIfEmpty()
+                select new ProductAndDiscount() { Product = p, Discount = d }).ToListAsync();
 
             return discounts;
         }
