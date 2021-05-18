@@ -265,12 +265,12 @@ function Home() {
                 </AddToCartButton>
               </ProductImageContainer>
               <ProductInfo>
-                <ProductTitle>Cheddar bacon</ProductTitle>
-                <ProductDescription>
-                  hamburger, bacon, mussarela, molho especial, picles
-                </ProductDescription>
+                <ProductTitle>{product.title}</ProductTitle>
+                <ProductDescription>{product.description}</ProductDescription>
                 <ProductPrice>
-                  <strong>R$ 16,90</strong>
+                  <strong>
+                    {product.formattedDiscountPrice || product.formattedPrice}
+                  </strong>
                 </ProductPrice>
               </ProductInfo>
             </Product>
