@@ -41,7 +41,6 @@ import {
   SectionTitle,
   Product,
   ProductImageContainer,
-  AddToCartButton,
   ProductInfo,
   ProductTitle,
   ProductDescription,
@@ -257,12 +256,6 @@ function Home() {
                   alt={product.title}
                   onError={imageFallback}
                 />
-                <AddToCartButton
-                  type="button"
-                  onClick={() => handleAddingItemToBag(product)}
-                >
-                  <IoBagAddOutline color="var(--light)" size={28} />
-                </AddToCartButton>
               </ProductImageContainer>
               <ProductInfo>
                 <ProductTitle>{product.title}</ProductTitle>

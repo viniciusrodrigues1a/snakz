@@ -326,19 +326,6 @@ export const ProductImageContainer = styled.div`
   }
 `;
 
-export const AddToCartButton = styled.button`
-  display: none;
-  position: absolute;
-  width: 3.75rem;
-  height: 3.75rem;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: #cd461b;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-`;
-
 export const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
