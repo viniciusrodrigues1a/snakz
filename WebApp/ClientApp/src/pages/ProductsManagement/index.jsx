@@ -187,155 +187,156 @@ function ProductsManagement() {
               message="Não há nada aqui"
             />
           ) : (
-            <ProductsTable.Table>
-              {products.map(product => (
-                <ProductsTable.Row key={String(product.id)}>
-                  <ProductsTable.Image
-                    src={product.imageUrl}
-                    onError={imageFallback}
-                    alt={product.title}
-                  />
-                  <ProductsTable.Info
-                    title={product.title}
-                    price={
-                      product.formattedDiscountPrice
-                        ? product.formattedDiscountPrice
-                        : product.formattedPrice
-                    }
-                  />
-                  <ProductsTable.Description
-                    description={product.description}
-                  />
-                  <Discount
-                    currentPrice={product.formattedDiscountPrice}
-                    originalPrice={product.formattedPrice}
-                    onUpdate={() => {
-                      setModal({
-                        shown: true,
-                        product,
-                        title: `Atualizando desconto do produto #${findFormattedIndexOfProduct(
-                          product
-                        )}`,
-                        onConfirm: () => updateDiscount(product.discountId),
-
-                        children: (
-                          <ModalContent.Discount
-                            discountAmountInputRef={discountAmountInputRef}
-                          />
-                        ),
-                      });
-                    }}
-                    onDelete={() => {
-                      setModal({
-                        shown: true,
-                        title: `Deletando desconto do produto #${findFormattedIndexOfProduct(
-                          product
-                        )}`,
-                        onConfirm: () => deleteDiscount(product.discountId),
-                      });
-                    }}
-                  />
-                  <ProductsTable.Action
-                    icon={
-                      !product.formattedDiscountPrice
-                        ? () => (
-                            <IoPricetagOutline
-                              size={36}
-                              color="#666"
-                              onClick={() => {
-                                setModal({
-                                  shown: true,
-                                  product,
-                                  title: `Criando desconto para o produto #${findFormattedIndexOfProduct(
-                                    product
-                                  )}`,
-                                  onConfirm: () => createDiscount(product.id),
-                                  children: (
-                                    <ModalContent.Discount
-                                      discountAmountInputRef={
-                                        discountAmountInputRef
-                                      }
-                                    />
-                                  ),
-                                });
-                              }}
-                            />
-                          )
-                        : null
-                    }
-                  />
-                  <ProductsTable.Action
-                    icon={() => (
-                      <IoPencil
-                        size={36}
-                        color="#666"
-                        onClick={() =>
-                          setModal({
-                            shown: true,
-                            title: `Atualizando produto #${findFormattedIndexOfProduct(
-                              product
-                            )}`,
-                            children: (
-                              <ModalContent.Product
-                                imageInputRef={imageInputRef}
-                                imageRef={imageRef}
-                                titleInputRef={titleInputRef}
-                                priceInputRef={priceInputRef}
-                                descriptionInputRef={descriptionInputRef}
-                                product={product}
-                              />
-                            ),
-                            onConfirm: () => updateProduct(product.id),
-                          })
-                        }
-                      />
-                    )}
-                  />
-                  <ProductsTable.Action
-                    icon={() => (
-                      <IoTrashOutline
-                        size={36}
-                        color="#666"
-                        onClick={() =>
-                          setModal({
-                            shown: true,
-                            title: `Certeza que deseja excluir o item #${findFormattedIndexOfProduct(
-                              product
-                            )}?`,
-                            onConfirm: () => deleteProduct(product.id),
-                          })
-                        }
-                      />
-                    )}
-                  />
-                </ProductsTable.Row>
-              ))}
-            </ProductsTable.Table>
-          )}
-
-          <AddProduct>
-            <button
-              type="button"
-              onClick={() =>
-                setModal({
-                  shown: true,
-                  title: "Criando novo produto",
-                  children: (
-                    <ModalContent.Product
-                      imageInputRef={imageInputRef}
-                      imageRef={imageRef}
-                      titleInputRef={titleInputRef}
-                      priceInputRef={priceInputRef}
-                      descriptionInputRef={descriptionInputRef}
+            <>
+              <ProductsTable.Table>
+                {products.map(product => (
+                  <ProductsTable.Row key={String(product.id)}>
+                    <ProductsTable.Image
+                      src={product.imageUrl}
+                      onError={imageFallback}
+                      alt={product.title}
                     />
-                  ),
-                  onConfirm: () => createProduct(),
-                })
-              }
-            >
-              <IoAddOutline size={32} color="#eee" />
-            </button>
-          </AddProduct>
+                    <ProductsTable.Info
+                      title={product.title}
+                      price={
+                        product.formattedDiscountPrice
+                          ? product.formattedDiscountPrice
+                          : product.formattedPrice
+                      }
+                    />
+                    <ProductsTable.Description
+                      description={product.description}
+                    />
+                    <Discount
+                      currentPrice={product.formattedDiscountPrice}
+                      originalPrice={product.formattedPrice}
+                      onUpdate={() => {
+                        setModal({
+                          shown: true,
+                          product,
+                          title: `Atualizando desconto do produto #${findFormattedIndexOfProduct(
+                            product
+                          )}`,
+                          onConfirm: () => updateDiscount(product.discountId),
+
+                          children: (
+                            <ModalContent.Discount
+                              discountAmountInputRef={discountAmountInputRef}
+                            />
+                          ),
+                        });
+                      }}
+                      onDelete={() => {
+                        setModal({
+                          shown: true,
+                          title: `Deletando desconto do produto #${findFormattedIndexOfProduct(
+                            product
+                          )}`,
+                          onConfirm: () => deleteDiscount(product.discountId),
+                        });
+                      }}
+                    />
+                    <ProductsTable.Action
+                      icon={
+                        !product.formattedDiscountPrice
+                          ? () => (
+                              <IoPricetagOutline
+                                size={36}
+                                color="#666"
+                                onClick={() => {
+                                  setModal({
+                                    shown: true,
+                                    product,
+                                    title: `Criando desconto para o produto #${findFormattedIndexOfProduct(
+                                      product
+                                    )}`,
+                                    onConfirm: () => createDiscount(product.id),
+                                    children: (
+                                      <ModalContent.Discount
+                                        discountAmountInputRef={
+                                          discountAmountInputRef
+                                        }
+                                      />
+                                    ),
+                                  });
+                                }}
+                              />
+                            )
+                          : null
+                      }
+                    />
+                    <ProductsTable.Action
+                      icon={() => (
+                        <IoPencil
+                          size={36}
+                          color="#666"
+                          onClick={() =>
+                            setModal({
+                              shown: true,
+                              title: `Atualizando produto #${findFormattedIndexOfProduct(
+                                product
+                              )}`,
+                              children: (
+                                <ModalContent.Product
+                                  imageInputRef={imageInputRef}
+                                  imageRef={imageRef}
+                                  titleInputRef={titleInputRef}
+                                  priceInputRef={priceInputRef}
+                                  descriptionInputRef={descriptionInputRef}
+                                  product={product}
+                                />
+                              ),
+                              onConfirm: () => updateProduct(product.id),
+                            })
+                          }
+                        />
+                      )}
+                    />
+                    <ProductsTable.Action
+                      icon={() => (
+                        <IoTrashOutline
+                          size={36}
+                          color="#666"
+                          onClick={() =>
+                            setModal({
+                              shown: true,
+                              title: `Certeza que deseja excluir o item #${findFormattedIndexOfProduct(
+                                product
+                              )}?`,
+                              onConfirm: () => deleteProduct(product.id),
+                            })
+                          }
+                        />
+                      )}
+                    />
+                  </ProductsTable.Row>
+                ))}
+              </ProductsTable.Table>
+              <AddProduct>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setModal({
+                      shown: true,
+                      title: "Criando novo produto",
+                      children: (
+                        <ModalContent.Product
+                          imageInputRef={imageInputRef}
+                          imageRef={imageRef}
+                          titleInputRef={titleInputRef}
+                          priceInputRef={priceInputRef}
+                          descriptionInputRef={descriptionInputRef}
+                        />
+                      ),
+                      onConfirm: () => createProduct(),
+                    })
+                  }
+                >
+                  <IoAddOutline size={32} color="#eee" />
+                </button>
+              </AddProduct>
+            </>
+          )}
         </ProductsTable.Content>
 
         <Modal
