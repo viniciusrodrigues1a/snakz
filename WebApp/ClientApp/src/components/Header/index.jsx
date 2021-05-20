@@ -13,7 +13,7 @@ function Header() {
           <img src={logoImg} alt="Snakz" />
         </Link>
 
-        <a href="/">Início</a>
+        <Link to="/">Início</Link>
       </div>
     </Container>
   );
