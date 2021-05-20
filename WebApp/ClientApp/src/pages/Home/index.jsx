@@ -45,6 +45,8 @@ import {
   ProductTitle,
   ProductDescription,
   ProductPrice,
+  Price,
+  AddToCartButton,
 } from "./styles";
 
 let fadeoutTimeout = null;
@@ -54,6 +56,7 @@ function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [products, setProducts] = useState([]);
+  const [productsWithDiscount, setProductsWithDiscount] = useState([]);
   const [notification, setNotification] = useState({
     message: "",
     visible: false,
@@ -69,6 +72,9 @@ function Home() {
     (async () => {
       const response = await fetchProducts();
       setProducts(response);
+      setProductsWithDiscount(
+        response.filter(p => p.formattedDiscountPrice !== null)
+      );
       animate(fixedBagRef.current).bringFixedBagToScreen();
       setLoaded(true);
     })();
@@ -237,6 +243,51 @@ function Home() {
           </HeaderContent>
         </BackgroundOverlay>
       </Header>
+
+      <Section>
+        <SectionTitle>Ofertas</SectionTitle>
+
+        {!loaded ? (
+          <LoadingSpin />
+        ) : loaded && products.length === 0 ? (
+          <EmptyList
+            icon={() => <IoFastFoodOutline color="#bbb" size={116} />}
+            message="Não há nada aqui"
+          />
+        ) : (
+          productsWithDiscount.map(product => (
+            <Product>
+              <ProductImageContainer>
+                <img
+                  src={product.imageUrl}
+                  alt={product.title}
+                  onError={imageFallback}
+                />
+              </ProductImageContainer>
+              <ProductInfo>
+                <ProductTitle>{product.title}</ProductTitle>
+                <ProductDescription>{product.description}</ProductDescription>
+                <ProductPrice>
+                  <div>
+                    <span>Por apenas</span>
+                    <Price showDiscount={!!product.formattedDiscountPrice}>
+                      <del>{product.formattedPrice}</del>{" "}
+                      <strong>
+                        {product.formattedDiscountPrice
+                          ? product.formattedDiscountPrice
+                          : product.formattedPrice}
+                      </strong>
+                    </Price>
+                  </div>
+                  <AddToCartButton type="button">
+                    <IoBagAddOutline size={28} color="var(--light)" />
+                  </AddToCartButton>
+                </ProductPrice>
+              </ProductInfo>
+            </Product>
+          ))
+        )}
+      </Section>
 
       <Section id="menu">
         <SectionTitle>Cardápio</SectionTitle>
