@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   IoBagAddOutline,
@@ -39,6 +46,7 @@ import {
   HeroSubtitle,
   Section,
   SectionTitle,
+  ProductContainer,
   Product,
   ProductImageContainer,
   ProductInfo,
@@ -47,16 +55,21 @@ import {
   ProductPrice,
   Price,
   AddToCartButton,
+  SlideCircles,
+  Circle,
 } from "./styles";
 
 let fadeoutTimeout = null;
 let visibilityTimeout = null;
+let offersSlideChangeTimeout = null;
 
 function Home() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [products, setProducts] = useState([]);
   const [productsWithDiscount, setProductsWithDiscount] = useState([]);
+  const [discountsSlideIndex, setDiscountsSlideIndex] = useState(0);
+  const [offerAnimationState, setOfferAnimationState] = useState(null);
   const [notification, setNotification] = useState({
     message: "",
     visible: false,
@@ -67,6 +80,11 @@ function Home() {
   const fixedBagRef = useRef(null);
   const itemsIndicatorRef = useRef(null);
   const notificationRef = useRef(null);
+
+  const offer = useMemo(() => productsWithDiscount[discountsSlideIndex], [
+    productsWithDiscount,
+    discountsSlideIndex,
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -79,6 +97,34 @@ function Home() {
       setLoaded(true);
     })();
   }, []);
+
+  const moveOffersSlideTo = useCallback(
+    async index => {
+      const previousIndex = discountsSlideIndex;
+      setOfferAnimationState("leaving");
+      await new Promise(res => setTimeout(res, 200));
+      setOfferAnimationState(
+        previousIndex - index === previousIndex
+          ? "enteringFromLeft"
+          : "enteringFromRight"
+      );
+      setDiscountsSlideIndex(index);
+    },
+    [discountsSlideIndex]
+  );
+
+  const setOffersSlideTimeout = useCallback(() => {
+    offersSlideChangeTimeout = setTimeout(() => {
+      if (discountsSlideIndex + 1 === productsWithDiscount.length) {
+        moveOffersSlideTo(0);
+        return;
+      }
+
+      moveOffersSlideTo(discountsSlideIndex + 1);
+    }, 4000);
+  }, [discountsSlideIndex, productsWithDiscount, moveOffersSlideTo]);
+
+  useEffect(() => setOffersSlideTimeout(), [setOffersSlideTimeout]);
 
   useEffect(() => {
     history.listen(() => {
@@ -233,37 +279,51 @@ function Home() {
             message="Não há nada aqui"
           />
         ) : (
-          productsWithDiscount.map(product => (
-            <Product>
-              <ProductImageContainer>
-                <img
-                  src={product.imageUrl}
-                  alt={product.title}
-                  onError={imageFallback}
+          <>
+            <ProductContainer>
+              <Product animationState={offerAnimationState} dontReverse>
+                <ProductImageContainer>
+                  <img
+                    src={offer.imageUrl}
+                    alt={offer.title}
+                    onError={imageFallback}
+                  />
+                </ProductImageContainer>
+                <ProductInfo>
+                  <ProductTitle>{offer.title}</ProductTitle>
+                  <ProductDescription>{offer.description}</ProductDescription>
+                  <ProductPrice>
+                    <div>
+                      <span>Por apenas</span>
+                      <Price showDiscount={!!offer.formattedDiscountPrice}>
+                        <del>{offer.formattedPrice}</del>{" "}
+                        <strong>
+                          {offer.formattedDiscountPrice
+                            ? offer.formattedDiscountPrice
+                            : offer.formattedPrice}
+                        </strong>
+                      </Price>
+                    </div>
+                    <AddToCartButton type="button">
+                      <IoBagAddOutline size={28} color="var(--light)" />
+                    </AddToCartButton>
+                  </ProductPrice>
+                </ProductInfo>
+              </Product>
+            </ProductContainer>
+            <SlideCircles>
+              {productsWithDiscount.map((_, index) => (
+                <Circle
+                  type="button"
+                  onClick={() => {
+                    clearTimeout(offersSlideChangeTimeout);
+                    moveOffersSlideTo(index);
+                  }}
+                  disabled={discountsSlideIndex === index}
                 />
-              </ProductImageContainer>
-              <ProductInfo>
-                <ProductTitle>{product.title}</ProductTitle>
-                <ProductDescription>{product.description}</ProductDescription>
-                <ProductPrice>
-                  <div>
-                    <span>Por apenas</span>
-                    <Price showDiscount={!!product.formattedDiscountPrice}>
-                      <del>{product.formattedPrice}</del>{" "}
-                      <strong>
-                        {product.formattedDiscountPrice
-                          ? product.formattedDiscountPrice
-                          : product.formattedPrice}
-                      </strong>
-                    </Price>
-                  </div>
-                  <AddToCartButton type="button">
-                    <IoBagAddOutline size={28} color="var(--light)" />
-                  </AddToCartButton>
-                </ProductPrice>
-              </ProductInfo>
-            </Product>
-          ))
+              ))}
+            </SlideCircles>
+          </>
         )}
       </Section>
 

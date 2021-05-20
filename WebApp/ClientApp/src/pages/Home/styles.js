@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export const Container = styled.main`
   padding-bottom: 18rem;
@@ -290,11 +290,73 @@ export const SectionTitle = styled.h1`
   }
 `;
 
+export const ProductContainer = styled.div`
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const leave = keyframes`
+  from {
+    opacity: 1;
+  } to {
+  opacity: 0;
+  }
+`;
+
+const enterRight = keyframes`
+  from {
+    transform: translateX(100vw);
+  } to {
+    transform: translateX(0);
+  }
+`;
+
+const enterLeft = keyframes`
+  from {
+    transform: translateX(-100vw);
+  } to {
+    transform: translateX(0);
+  }
+`;
+
+const productAnimations = {
+  leaving: {
+    anim: leave,
+    duration: "0.2s",
+    timingFunction: "ease-in",
+  },
+  enteringFromLeft: {
+    anim: enterLeft,
+    duration: "0.5s",
+    timingFunction: "ease-out",
+  },
+  enteringFromRight: {
+    anim: enterRight,
+    duration: "0.5s",
+    timingFunction: "ease-out",
+  },
+};
+
+const createProductAnimationCss = animationState => css`
+  animation-name: ${animationState && productAnimations[animationState].anim};
+  animation-duration: ${animationState &&
+  productAnimations[animationState].duration};
+  animation-duration: ${animationState &&
+  productAnimations[animationState].timingFunction};
+  animation-fill-mode: forwards;
+`;
+
 export const Product = styled.div`
   display: flex;
 
+  ${({ animationState }) => createProductAnimationCss(animationState)};
+
   &:nth-child(odd) {
-    flex-direction: row-reverse;
+    flex-direction: ${({ dontReverse }) =>
+      dontReverse ? "row" : "row-reverse"};
   }
 `;
 
@@ -455,4 +517,35 @@ export const AddToCartButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const SlideCircles = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 48.5rem) {
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 68.75rem) {
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 100rem) {
+    margin-top: 4rem;
+  }
+`;
+
+export const Circle = styled.button`
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: gray;
+  background: linear-gradient(90deg, gray, rgba(0, 0, 0, 0.6));
+  border: none;
+  border-radius: 50%;
+  margin: 0 0.5rem;
+  transition: 0.2s;
+  opacity: ${({ disabled }) => (disabled ? 1 : 0.5)};
 `;
