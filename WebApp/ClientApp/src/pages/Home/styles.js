@@ -383,37 +383,76 @@ export const ProductDescription = styled.span`
   }
 `;
 
-export const ProductPrice = styled.button`
-  margin: 0 auto;
-
-  background-color: #cd461b;
-  border: none;
+export const ProductPrice = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 1rem;
+  margin: 0 0.3rem;
+
+  > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > span {
+      display: none;
+    }
+  }
+
+  @media (min-width: 41.5rem) {
+    margin: 0 0.5rem;
+  }
 
   @media (min-width: 48.5rem) {
-    padding: 0.5rem 1.25rem;
+    justify-content: space-evenly;
+  }
+
+  @media (min-width: 68.75rem) {
+    > div:first-child {
+      > span {
+        display: initial;
+        margin-right: 8px;
+        align-self: flex-end;
+        margin-bottom: 2px;
+      }
+    }
+  }
+`;
+
+export const Price = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > del {
+    font-family: Roboto;
+    font-weight: normal;
+    font-size: 1rem;
+    color: var(--dark);
+    text-shadow: none;
+    background: #8b000066;
+    padding: 0.05rem 0.5rem;
+    align-self: flex-start;
+    display: ${({ showDiscount }) => (showDiscount ? "initial" : "none")};
   }
 
   > strong {
     font-family: Roboto;
     font-weight: bold;
-    font-size: 1rem;
-    color: var(--light);
+    font-size: 1.4rem;
+    color: var(--dark);
     text-shadow: 0px 4px 4px rgba(205, 70, 27, 0.25);
-
-    @media (min-width: 48.5rem) {
-      font-size: 1.25rem;
-    }
-
-    @media (min-width: 68.75rem) {
-      font-size: 1.5rem;
-    }
-
-    @media (min-width: 100rem) {
-      font-size: 1.75rem;
-    }
   }
+`;
+
+export const AddToCartButton = styled.button`
+  background-color: var(--primary);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

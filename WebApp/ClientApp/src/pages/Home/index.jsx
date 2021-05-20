@@ -261,9 +261,20 @@ function Home() {
                 <ProductTitle>{product.title}</ProductTitle>
                 <ProductDescription>{product.description}</ProductDescription>
                 <ProductPrice>
-                  <strong>
-                    {product.formattedDiscountPrice || product.formattedPrice}
-                  </strong>
+                  <div>
+                    <span>Por apenas</span>
+                    <Price showDiscount={!!product.formattedDiscountPrice}>
+                      <del>{product.formattedPrice}</del>{" "}
+                      <strong>
+                        {product.formattedDiscountPrice
+                          ? product.formattedDiscountPrice
+                          : product.formattedPrice}
+                      </strong>
+                    </Price>
+                  </div>
+                  <AddToCartButton type="button">
+                    <IoBagAddOutline size={30} color="var(--light)" />
+                  </AddToCartButton>
                 </ProductPrice>
               </ProductInfo>
             </Product>
