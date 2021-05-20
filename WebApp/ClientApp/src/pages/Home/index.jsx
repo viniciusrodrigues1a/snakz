@@ -272,7 +272,10 @@ function Home() {
                       </strong>
                     </Price>
                   </div>
-                  <AddToCartButton type="button">
+                  <AddToCartButton
+                    type="button"
+                    onClick={() => handleAddingItemToBag(product)}
+                  >
                     <IoBagAddOutline size={30} color="var(--light)" />
                   </AddToCartButton>
                 </ProductPrice>
