@@ -227,7 +227,7 @@ function Home() {
 
         {!loaded ? (
           <LoadingSpin />
-        ) : loaded && products.length === 0 ? (
+        ) : loaded && productsWithDiscount.length === 0 ? (
           <EmptyList
             icon={() => <IoFastFoodOutline color="#bbb" size={116} />}
             message="Não há nada aqui"
