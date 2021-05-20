@@ -154,28 +154,6 @@ function Home() {
     });
   }
 
-  function changeProductAmount(title) {
-    return amount => {
-      const newProducts = products.map(p => {
-        const newAmount = p.amount + amount;
-        if (newAmount < 1) {
-          return p;
-        }
-
-        if (p.title === title) {
-          return {
-            ...p,
-            amount: newAmount,
-            formattedSubtotal: formatPrice(p.price * newAmount),
-          };
-        }
-
-        return p;
-      });
-      setProducts(newProducts);
-    };
-  }
-
   function imageFallback(e) {
     e.target.src = burgerFallbackImg;
   }
