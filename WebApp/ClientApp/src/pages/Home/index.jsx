@@ -115,6 +115,8 @@ function Home() {
 
   const setOffersSlideTimeout = useCallback(() => {
     offersSlideChangeTimeout = setTimeout(() => {
+      if (productsWithDiscount.length < 2) return;
+
       if (discountsSlideIndex + 1 === productsWithDiscount.length) {
         moveOffersSlideTo(0);
         return;
