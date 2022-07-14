@@ -16,6 +16,9 @@ namespace WebApp.Data
             var config = Configuration.GetConfiguration();
             var adminUsername = config["ADMIN_USERNAME"];
             var adminPassword = config["ADMIN_PASSWORD"];
+
+            if (adminUsername == null | adminPassword == null) return;
+
             var salt = PasswordEncryption.GenerateSalt();
             var hash = PasswordEncryption.GenerateHash(adminPassword, salt);
             modelBuilder.Entity<User>().HasData(
