@@ -104,7 +104,6 @@ namespace WebApp.Controllers
                 var staticUploadsUrl = $"{baseUrl}/Uploads/";
                 var fileName = new ProductFile(file, _env.ContentRootPath).FileName;
                 imageUrl = $"{staticUploadsUrl}{fileName}";
-                Console.WriteLine(imageUrl);
             }
 
             var product = new Product { 
@@ -159,7 +158,6 @@ namespace WebApp.Controllers
                 var staticUploadsUrl = $"{baseUrl}/Uploads/";
                 var fileName = new ProductFile(file, _env.ContentRootPath).FileName;
                 imageUrl = $"{staticUploadsUrl}{fileName}";
-                Console.WriteLine(imageUrl);
             }
             
             product.Title = title;
