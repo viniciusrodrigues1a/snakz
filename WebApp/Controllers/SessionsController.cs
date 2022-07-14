@@ -16,7 +16,6 @@ namespace WebApp.Controllers
     [Route("[controller]")]
     public class SessionsController : ControllerBase
     {
-        [HttpPost]
         [Route("")]
         public async Task<ActionResult> Post(
             [FromServices] DataContext context,
