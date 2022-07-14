@@ -43,6 +43,10 @@ export const FixedBagItemsIndicator = styled.span`
 `;
 
 /* Header */
+export const HeaderContainer = styled.div`
+  position: relative;
+`;
+
 export const Header = styled.header`
   background-image: url(${({ img }) => img});
   background-position: center;
@@ -51,6 +55,11 @@ export const Header = styled.header`
   height: 36rem;
   position: ${({ isNavOpen }) => (isNavOpen ? "fixed" : "initial")};
   z-index: 10;
+  min-height: 100vh;
+
+  @media (min-height: 67.5rem) {
+    min-height: 20rem;
+  }
 `;
 
 export const BackgroundOverlay = styled.div`
@@ -62,6 +71,29 @@ export const BackgroundOverlay = styled.div`
     rgba(34, 34, 34, 0.4) 100%,
     rgba(0, 0, 0, 0.5) 100%
   );
+`;
+
+const floating = keyframes`
+  0% {
+    transform: translateX(-50%) translateY(-20%);
+  } 25% {
+    transform: translateX(-50%) translateY(20%);
+  } 50% {
+    transform: translateX(-50%) translateY(-20%);
+  } 75% {
+    transform: translateX(-50%) translateY(20%);
+  } 100% {
+    transform: translateX(-50%) translateY(-20%);
+  }
+`;
+
+export const HeaderChevronButton = styled.div`
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: ${floating} 1.5s linear infinite forwards;
+  cursor: pointer;
 `;
 
 export const HeaderContent = styled.div`

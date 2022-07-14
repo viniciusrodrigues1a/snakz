@@ -13,6 +13,7 @@ import {
   IoFastFoodOutline,
   IoArrowForwardOutline,
   IoMenuOutline,
+  IoChevronDown,
 } from "react-icons/io5";
 
 import animate from "./utils/animations";
@@ -32,9 +33,11 @@ import {
   Container,
   FixedBagLinkContainer,
   FixedBagItemsIndicator,
+  HeaderContainer,
   Header,
   HeaderContent,
   BackgroundOverlay,
+  HeaderChevronButton,
   NavContainer,
   Navbar,
   NavList,
@@ -227,50 +230,58 @@ function Home() {
         </Link>
       </FixedBagLinkContainer>
 
-      <Header img={heroImg} isNavOpen={isNavOpen}>
-        <BackgroundOverlay>
-          <HeaderContent>
-            <NavContainer isNavOpen={isNavOpen}>
-              <Link to="/">
-                <img src={logoImg} alt="Snakz" />
-              </Link>
+      <HeaderContainer>
+        <Header img={heroImg} isNavOpen={isNavOpen}>
+          <BackgroundOverlay>
+            <HeaderContent>
+              <NavContainer isNavOpen={isNavOpen}>
+                <Link to="/">
+                  <img src={logoImg} alt="Snakz" />
+                </Link>
 
-              <Navbar isNavOpen={isNavOpen}>
-                <NavList>
-                  <NavItem>
-                    <a href="#menu">Cardápio</a>
-                  </NavItem>
-                  <NavItem>
-                    <a href="#footer">Contato</a>
-                  </NavItem>
-                  <NavItemBag>
-                    <Link to="/sacola">
-                      <IoBagHandleOutline size={28} />
-                      <strong>Sacola</strong>
-                    </Link>
-                  </NavItemBag>
-                </NavList>
-              </Navbar>
+                <Navbar isNavOpen={isNavOpen}>
+                  <NavList>
+                    <NavItem>
+                      <a href="#menu">Cardápio</a>
+                    </NavItem>
+                    <NavItem>
+                      <a href="#footer">Contato</a>
+                    </NavItem>
+                    <NavItemBag>
+                      <Link to="/sacola">
+                        <IoBagHandleOutline size={28} />
+                        <strong>Sacola</strong>
+                      </Link>
+                    </NavItemBag>
+                  </NavList>
+                </Navbar>
 
-              <DropdownButton onClick={() => setIsNavOpen(!isNavOpen)}>
-                <IoMenuOutline color="#fff" size={48} />
-              </DropdownButton>
-            </NavContainer>
+                <DropdownButton onClick={() => setIsNavOpen(!isNavOpen)}>
+                  <IoMenuOutline color="#fff" size={48} />
+                </DropdownButton>
+              </NavContainer>
 
-            <HeroContainer>
-              <HeroTitle>
-                Hamburguer para <span>todo mundo!</span>
-              </HeroTitle>
+              <HeroContainer>
+                <HeroTitle>
+                  Hamburguer para <span>todo mundo!</span>
+                </HeroTitle>
 
-              <HeroSubtitle>
-                Venha lanchar no melhor lugar da cidade!
-              </HeroSubtitle>
-            </HeroContainer>
-          </HeaderContent>
-        </BackgroundOverlay>
-      </Header>
+                <HeroSubtitle>
+                  Venha lanchar no melhor lugar da cidade!
+                </HeroSubtitle>
+              </HeroContainer>
+            </HeaderContent>
 
-      <Section>
+            <HeaderChevronButton
+              onClick={() => document.getElementById("offers").scrollIntoView()}
+            >
+              <IoChevronDown color="#ffffff" size={36} />
+            </HeaderChevronButton>
+          </BackgroundOverlay>
+        </Header>
+      </HeaderContainer>
+
+      <Section id="offers">
         <SectionTitle>Ofertas</SectionTitle>
 
         {!loaded ? (
