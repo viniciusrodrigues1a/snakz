@@ -103,6 +103,11 @@ namespace WebApp.Controllers {
                 return BadRequest(new { Message = "Valor deve ser maior que 0." });
             }
 
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == discount.ProductId);
+            if (body.Amount > product.Price) {
+                return BadRequest(new { Message = "Valor do desconto deve ser menor que valor do produto." });
+            }
+
             discount.Amount = body.Amount;
 
             context.Discounts.Attach(discount);
