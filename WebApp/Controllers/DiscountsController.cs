@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers {
     public class DiscountRequest
@@ -53,6 +54,7 @@ namespace WebApp.Controllers {
         }
         
         [HttpPost]
+        [Authorize]
         [Route("")]
         public async Task<ActionResult<Discount>> Post(
             [FromServices] DataContext context,
@@ -84,6 +86,7 @@ namespace WebApp.Controllers {
         }
 
         [HttpPut]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult> Put(
             [FromServices] DataContext context,
@@ -110,6 +113,7 @@ namespace WebApp.Controllers {
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<ActionResult> Delete(
             [FromServices] DataContext context,
