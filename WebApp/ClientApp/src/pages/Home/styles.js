@@ -47,7 +47,10 @@ export const Header = styled.header`
   background-image: url(${({ img }) => img});
   background-position: center;
   background-size: cover;
+  width: 100%;
   height: 36rem;
+  position: ${({ isNavOpen }) => (isNavOpen ? "fixed" : "initial")};
+  z-index: 10;
 `;
 
 export const BackgroundOverlay = styled.div`
@@ -92,6 +95,7 @@ export const Navbar = styled.nav`
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
+  min-height: 100vh;
 
   @media (min-width: 48.5rem) {
     display: initial !important;

@@ -225,7 +225,7 @@ function Home() {
         </Link>
       </FixedBagLinkContainer>
 
-      <Header img={heroImg}>
+      <Header img={heroImg} isNavOpen={isNavOpen}>
         <BackgroundOverlay>
           <HeaderContent>
             <NavContainer isNavOpen={isNavOpen}>
@@ -304,7 +304,10 @@ function Home() {
                         </strong>
                       </Price>
                     </div>
-                    <AddToCartButton type="button">
+                    <AddToCartButton
+                      type="button"
+                      onClick={() => handleAddingItemToBag(offer)}
+                    >
                       <IoBagAddOutline size={28} color="var(--light)" />
                     </AddToCartButton>
                   </ProductPrice>
@@ -312,8 +315,9 @@ function Home() {
               </Product>
             </ProductContainer>
             <SlideCircles>
-              {productsWithDiscount.map((_, index) => (
+              {productsWithDiscount.map((p, index) => (
                 <Circle
+                  key={p.id}
                   type="button"
                   onClick={() => {
                     clearTimeout(offersSlideChangeTimeout);
@@ -338,7 +342,7 @@ function Home() {
           />
         ) : (
           products.map(product => (
-            <Product>
+            <Product key={product.id}>
               <ProductImageContainer>
                 <img
                   src={product.imageUrl}
