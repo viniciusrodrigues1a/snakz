@@ -95,7 +95,10 @@ function ProductsManagement() {
   function createProductFormData() {
     const formData = new FormData();
     formData.append("title", titleInputRef.current.value);
-    formData.append("price", priceInputRef.current.value);
+    formData.append(
+      "price",
+      priceInputRef.current.value.toString().replace(".", ",")
+    );
     formData.append("description", descriptionInputRef.current.value);
     const [file] = imageInputRef.current.files;
     formData.append("file", file);
@@ -182,10 +185,36 @@ function ProductsManagement() {
           {!loaded ? (
             <LoadingSpin />
           ) : loaded && products.length === 0 ? (
-            <EmptyList
-              icon={() => <IoFastFoodOutline color="#bbb" size={116} />}
-              message="Não há nada aqui"
-            />
+            <>
+              <EmptyList
+                icon={() => <IoFastFoodOutline color="#bbb" size={116} />}
+                message="Não há nada aqui"
+              />
+
+              <AddProduct>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setModal({
+                      shown: true,
+                      title: "Criando novo produto",
+                      children: (
+                        <ModalContent.Product
+                          imageInputRef={imageInputRef}
+                          imageRef={imageRef}
+                          titleInputRef={titleInputRef}
+                          priceInputRef={priceInputRef}
+                          descriptionInputRef={descriptionInputRef}
+                        />
+                      ),
+                      onConfirm: () => createProduct(),
+                    })
+                  }
+                >
+                  <IoAddOutline size={32} color="#eee" />
+                </button>
+              </AddProduct>
+            </>
           ) : (
             <>
               <ProductsTable.Table>
