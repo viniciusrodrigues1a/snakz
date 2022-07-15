@@ -84,6 +84,10 @@ namespace WebApp.Controllers
             var description = data["description"].ToString();
             var price = data["price"].ToString();
 
+            if (float.Parse(price) < 0) {
+                return BadRequest(new { message = "Preço não pode ser negativo." });
+            }
+
             if (title == "" ||
                 description == "" ||
                 price == "")
@@ -109,7 +113,7 @@ namespace WebApp.Controllers
             var product = new Product { 
                 Title = title,
                 Description = description,
-                Price = Int32.Parse(price),
+                Price = float.Parse(price),
                 ImageUrl = imageUrl 
             };
             
@@ -162,7 +166,7 @@ namespace WebApp.Controllers
             
             product.Title = title;
             product.Description = description;
-            product.Price = Int32.Parse(price);
+            product.Price = float.Parse(price);
 
             if (!string.IsNullOrEmpty(imageUrl))
             {

@@ -8,7 +8,7 @@ namespace WebApp.Models
         public int Id { get; set; }
         
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        public int Amount { get; set;  }
+        public float Amount { get; set;  }
         
         [Required(ErrorMessage = "Este campo é obrigatório")]
         public int ProductId { get; set; }

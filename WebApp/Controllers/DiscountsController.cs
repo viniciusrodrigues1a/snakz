@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebApp.Controllers {
     public class DiscountRequest
     {
-        public int Amount { get; set; }
+        public float Amount { get; set; }
         public int ProductId { get; set; }
     }
     
     public class DiscountUpdateRequest
     {
-        public int Amount { get; set; }
+        public float Amount { get; set; }
     }
     
     [ApiController]
