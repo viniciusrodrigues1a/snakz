@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { IoCloseOutline, IoBagHandleOutline } from "react-icons/io5";
 
 import { BagContext } from "../../contexts/BagContext";
@@ -26,9 +27,9 @@ function Bag() {
             icon={() => <IoBagHandleOutline color="#bbb" size={116} />}
             message="Não há nada em sua sacola"
           >
-            <a href="/#menu">
+            <Link to="/">
               <BagEmptyButton>Veja nosso cardápio!</BagEmptyButton>
-            </a>
+            </Link>
           </EmptyList>
         ) : (
           <ProductsTable.Content>
