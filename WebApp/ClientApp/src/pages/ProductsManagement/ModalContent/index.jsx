@@ -53,7 +53,7 @@ const ModalContent = {
           <FormInput
             ref={priceInputRef}
             type="number"
-            step="1"
+            step="0.01"
             min="0"
             placeholder="PREÇO"
             defaultValue={product?.price}
@@ -75,7 +75,7 @@ const ModalContent = {
         ref={discountAmountInputRef}
         type="number"
         min="0"
-        step="0"
+        step="0.01"
         placeholder="DESCONTO"
       />
     );
