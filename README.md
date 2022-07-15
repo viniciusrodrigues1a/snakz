@@ -62,6 +62,8 @@ Projeto para uma lanchonete fictícia, desenvolvido para aprimorar meus conhecim
   <img height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React" />
 </div>
 
+<br />
+
 Desenvolvido utilizando **C#**, **.NET Core** e **React**.
 
 <br />
