@@ -58,10 +58,11 @@ Projeto para uma lanchonete fictícia, desenvolvido para aprimorar meus conhecim
 
 <div style="display: inline-block;">
   <img height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="CSharp" />
+  <img height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dotnetcore/dotnetcore-original.svg" alt="Dotnet Core" />
   <img height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React" />
 </div>
 
-Desenvolvido utilizando **C#** e **React**.
+Desenvolvido utilizando **C#**, **.NET Core** e **React**.
 
 <br />
 
