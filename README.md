@@ -6,8 +6,6 @@
   <img src="https://img.shields.io/github/last-commit/viniciusrodrigues1a/snakz" alt="Last commit date" />
 </p>
 
-<br />
-
 <h2 align="center">App showcase</h2>
 
 <br />
